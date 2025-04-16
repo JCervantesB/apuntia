@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate",
-    "prepare": "npm install typewriter-effect"
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.2.7",
@@ -72,7 +71,8 @@
   },
   "overrides": {
     "typewriter-effect": {
-      "react": "^19.0.0"
+      "react": "^19.0.0",
+      "react-dom": "^19.0.0"
     }
   }
 }
