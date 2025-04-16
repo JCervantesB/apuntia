@@ -71,6 +71,8 @@
     "typescript": "^5"
   },
   "overrides": {
-    "typewriter-effect": "^2.21.0"
+    "typewriter-effect": {
+      "react": "^19.0.0"
+    }
   }
 }
