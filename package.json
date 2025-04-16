@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "prepare": "npm install typewriter-effect"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.2.7",
@@ -68,5 +69,8 @@
     "prisma": "^6.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "typewriter-effect": "^2.21.0"
   }
 }
