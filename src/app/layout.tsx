@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Exo_2, Inter, Montserrat } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import {
   ClerkProvider
@@ -8,11 +8,6 @@ import { esMX } from "@clerk/localizations";
 
 const inter = Inter({
   variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const exo = Exo_2({
-  variable: "--font-exo",
   subsets: ["latin"],
 });
 

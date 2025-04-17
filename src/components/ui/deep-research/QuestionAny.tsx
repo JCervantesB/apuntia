@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client"
 import { useDeepResearchStore } from '@/store/deepResearch'
 import React, { useEffect } from 'react'

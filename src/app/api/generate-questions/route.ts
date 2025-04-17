@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { generateObject } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { z } from 'zod';
-import { increaseApiLimit, checkApiLimit, checkTokenLimit } from "@/lib/api-limit";
+import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
 
 const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY || '',

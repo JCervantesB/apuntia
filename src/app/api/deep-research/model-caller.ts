@@ -3,8 +3,6 @@ import { openrouter } from "./services";
 import { ActivityTracker, ModelCallOptions, ResearchState } from "./types";
 import { MAX_RETRY_ATTEMPTS, RETRY_DELAY_MS } from "./constants";
 import { delay } from "./utils";
-import { decreaseTokens } from "@/lib/api-limit"; 
-
 
 export async function callModel<T>({
     model, prompt, system, schema, activityType = "generar"

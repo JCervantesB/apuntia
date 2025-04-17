@@ -49,7 +49,7 @@ const Navigation = () => {
                                 <DropdownMenuLabel className='flex items-center'><User /> {user.username}</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>
-                                    <a href="/panel">Configuración</a>
+                                    <Link href={"/panel"}>Configuración</Link>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem asChild>

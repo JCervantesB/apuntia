@@ -1,67 +1,108 @@
 import { createActivityTracker } from "./activity-tracker";
 import { MAX_ITERATIONS } from "./constants";
-import { analyzeFindings, generateReport, generateSearchQueries, processSearchResults, search } from "./research-functions";
-import { ResearchState,  } from "./types";
+import {
+  analyzeFindings,
+  generateReport,
+  generateSearchQueries,
+  processSearchResults,
+  search,
+} from "./research-functions";
+import { ResearchState } from "./types";
 
+type DataStream = {
+  writeData: (data: { type: string; content: string }) => void;
+};
 
-export async function deepResearch(researchState: ResearchState, dataStream: any){
-    let iteration = 0;
+type InitialQueries = {
+  searchQueries: string[];
+};
 
-    const activityTracker = createActivityTracker(dataStream, researchState)
-    const initialQueries = await generateSearchQueries(researchState, activityTracker)
-    let currentQueries = (initialQueries as any).searchQueries;
+type SearchResult = {
+  title: string;
+  url: string;
+  content: string;
+};
 
-    while(currentQueries && currentQueries.length > 0 && iteration < MAX_ITERATIONS){
-        iteration++;
+type AnalysisResult = {
+  sufficient: boolean;
+  queries: string[];
+};
 
-        const sarchResults = currentQueries.map((query: string) => search(query, researchState, activityTracker));
-        const searchResultsResponses = await Promise.allSettled(sarchResults);
+export async function deepResearch(
+  researchState: ResearchState,
+  dataStream: DataStream
+) {
+  let iteration = 0;
 
-        const allSearchResults = searchResultsResponses.filter((result): result is PromiseFulfilledResult<any> => result.status === "fulfilled" && result. value.length > 0).map((result: any) => result.value).flat();
+  const activityTracker = createActivityTracker(dataStream, researchState);
+  const initialQueries = await generateSearchQueries(
+    researchState,
+    activityTracker
+  );
+  const currentInit = initialQueries as InitialQueries;
+  let currentQueries = currentInit.searchQueries;
 
-        console.log(`Se obtuvieron ${allSearchResults.length} resultados de búsqueda!`);
+  while (currentQueries && currentQueries.length > 0 && iteration < MAX_ITERATIONS) {
+    iteration++;
 
-        const newFindings = await processSearchResults(
-            allSearchResults,
-            researchState,
-            activityTracker
-        )
+    const sarchResults = currentQueries.map((query: string) =>
+      search(query, researchState, activityTracker)
+    );
+    const searchResultsResponses = await Promise.allSettled(sarchResults);
 
-        console.log("Resultados de búsqueda procesados");
+    const allSearchResults = searchResultsResponses
+      .filter(
+        (result): result is PromiseFulfilledResult<SearchResult[]> =>
+          result.status === "fulfilled" && result.value.length > 0
+      )
+      .map((result) => result.value)
+      .flat();
 
-        researchState.findings = [...researchState.findings, ...newFindings];
+    console.log(`Se obtuvieron ${allSearchResults.length} resultados de búsqueda!`);
 
-        const analysis = await analyzeFindings(
-            researchState,
-            currentQueries,
-            iteration,
-            activityTracker
-        )
+    const newFindings = await processSearchResults(
+      allSearchResults,
+      researchState,
+      activityTracker
+    );
 
-        console.log("Analisis: ", analysis);
+    console.log("Resultados de búsqueda procesados");
 
-        if((analysis as any).sufficient){
-            break;
-        }
+    researchState.findings = [...researchState.findings, ...newFindings];
 
-        currentQueries = ((analysis as any).queries || []).filter((query: string) => !currentQueries.includes(query));
+    const analysis = (await analyzeFindings(
+      researchState,
+      currentQueries,
+      iteration,
+      activityTracker
+    )) as AnalysisResult;
 
+    console.log("Análisis: ", analysis);
 
-        // Procesar los resultados de la búsqueda
-
-        currentQueries = []
+    if (analysis.sufficient) {
+      break;
     }
 
-    console.log("Iteraciones completadas: ", iteration);
-    console.log("Buscando: ", researchState.findings);
+    currentQueries = (analysis.queries || []).filter(
+      (query: string) => !currentQueries.includes(query)
+    );
 
-    const report = await generateReport(researchState, activityTracker);
+    // Procesar los resultados de la búsqueda
+    currentQueries = [];
+  }
 
-    dataStream.writeData({
-        type: "report",
-        content: report
-    })
-    console.log("Reporte generado: ", report);
+  console.log("Iteraciones completadas: ", iteration);
+  console.log("Buscando: ", researchState.findings);
 
-    return initialQueries;
+  const report = await generateReport(researchState, activityTracker);
+
+  // Asegurarnos de que `report` sea tratado como una cadena
+  dataStream.writeData({
+    type: "report",
+    content: report as string,  // Hacemos un cast a string
+  });
+
+  console.log("Reporte generado: ", report);
+
+  return initialQueries;
 }
