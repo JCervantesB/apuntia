@@ -25,7 +25,7 @@ const QuestionAny = () => {
         api: "/api/deep-research",
     });
 
-    console.log("Data: ", data);
+    //console.log("Data: ", data);
 
     useEffect(() => {
         if (!data) return;

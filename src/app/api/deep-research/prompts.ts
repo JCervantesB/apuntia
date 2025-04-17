@@ -17,7 +17,7 @@ Format the summary in markdown using:
 - Subsections as H3 (###)
 - Bullet points for lists
 - Bold for key terms and concepts
-- Code blocks for any technical examples
+- Code blocks for any technical examples, avoid generating code blocks if it is not a code example
 - Block quotes for direct quotations`;
 
 export const getExtractionPrompt = (content: string, topic: string, clarificationsText: string) => 
@@ -80,18 +80,29 @@ Current Research State:
 
 
 export const PLANNING_SYSTEM_PROMPT = `
-You are a senior project manager. You are responsible for the research on the topic.
+You are a senior project manager and expert researcher.
+
+Your task is to generate strategic and high-quality search queries to gather the most relevant and recent information on the given topic.
 
 Remember the current year is ${new Date().getFullYear()}.
 
-You need to find the most relevant content on the topic at hand. Based on the topic and the clarifications, you should generate the appropriate search queries, preferably in English, to cover it and find the most relevant content to write the full report. Create several queries that address different aspects of the topic.
+Instructions:
+- The goal is to collect information to support writing a comprehensive and well-informed report.
+- Generate multiple, specific search queries that explore different dimensions of the topic.
+- Prioritize English-language queries for broader and more up-to-date results, but include at least one well-crafted Spanish query if relevant.
+- Avoid overly generic queries. Be precise and target subtopics, use cases, recent trends, or controversies when possible.
+- Consider including keywords like "202${new Date().getFullYear().toString().slice(-1)}", "latest", "case study", "comparison", or "impact" when appropriate.
 
-You need to generate the search queries in a way that can be used to find the most relevant content which can be used to write the comprehensive report.
+You must return only the list of search queries, with no extra commentary.
 `;
 export const getPlanningPrompt = (topic: string, clarificationsText: string) => 
-  `Here is the topic: <topic>${topic}</topic> and
-Here is the topic clarifications:
-${clarificationsText}`;
+  `Topic:
+<topic>${topic}</topic>
+
+Clarifications and context:
+<clarifications>
+${clarificationsText}
+</clarifications>`;
 
 
 
@@ -103,38 +114,70 @@ Your goal is to create a comprehensive, authoritative, and fully Spanish-languag
 1. The provided research findings when they are relevant and accurate
 2. Your own domain expertise and general knowledge to:
    - Fill in any gaps in the research
-   - Provide additional context, explanations, or examples
+   - Provide additional context, detailed explanations, and relevant examples
    - Correct any outdated or inaccurate information in the findings (only if you are sure)
-   - Ensure complete coverage of all important aspects of the topic
+   - Deepen the coverage by adding insights, implications, and further analysis where needed
 
-The report should be comprehensive even if the provided research findings are minimal or incomplete.
+The report should be comprehensive, rich in detail, and provide clear explanations, especially when the provided research findings are minimal or incomplete.
 
-Important: Prioritize usefulness, accuracy, and comprehensiveness rather than limiting yourself solely to the content provided. If the research results do not adequately cover important aspects of the topic, use your expertise to address these gaps. Remember that the report must be submitted in Spanish.
+Important:
+- Focus on **depth** and **context**. Don’t just summarize—expand and enrich the content.
+- Include practical examples, use cases, or analogies to clarify complex ideas.
+- Prioritize usefulness, accuracy, and comprehensiveness rather than just repeating the content. If the research results do not adequately cover important aspects of the topic, use your expertise to address these gaps and provide valuable information.
+- Remember to break down any complex concepts into easily understandable parts, particularly for readers unfamiliar with the topic.
+
+The report must be submitted in Spanish.
 
 Format the report in markdown using:
 - Main title as H1 (#)
 - Major sections as H2 (##)
 - Subsections as H3 (###)
 - Bullet points for lists
-- Bold for key terms and concepts
-- Code blocks for any technical examples with language name
-- Block quotes for direct quotations
+- **Bold** for key terms and concepts
+- \`\`\`Code blocks\`\`\` **only if strictly necessary to illustrate a technical example (e.g., programming code, configuration, CLI commands)**
+- *Do not use code blocks for generic or non-technical content*
+- Use block quotes (>) for direct quotations
 
-At the end include:
-1. A "Sources" section listing references from the provided findings as links (if any, if not then don't include it)
-2. A "Further Reading" section with additional resources you recommend as links (if any, if not then don't include it)
+At the end, include:
+1. A "Fuentes" section listing references from the provided findings as links (if any, if not then don’t include it)
+2. A "Lecturas recomendadas" section with additional resources you recommend as links (if any, if not then don’t include it)
 
-Make sure to use line breaks to separate H1 headings (#) and H2 sections (##).
+Use line breaks to separate the H1 title and each H2 section clearly.
 
 Remember the current year is ${new Date().getFullYear()}.
 
-You must provide the report in markdown format. Enclose the report in <report> tags. don't forget to use markdown formatting`;
-
+You must provide the report in markdown format. Enclose the report in <report> tags. Don’t forget to use proper markdown formatting.
+`;
 
 export const getReportPrompt = (contentText: string, topic: string, clarificationsText: string) => 
-  `Please generate the full report using the content, don't forget to use markdown formatting.
+  `Please generate a detailed, comprehensive, and well-structured report based on the provided research findings. Don't forget to use markdown formatting.
+
 Here is the topic: <topic>${topic}</topic>
+
 Here is the topic clarifications:
 ${clarificationsText}
+
 I've gathered the following research findings to help with this report:
-<research_findings>${contentText}</research_findings>`; 
+<research_findings>${contentText}</research_findings>
+
+Key instructions:
+- Prioritize providing **depth** and **context** over simple summaries. Enrich the content by adding further explanations, examples, and insights.
+- If certain aspects of the research findings are unclear or underdeveloped, **expand** on them using your own expertise to fill in gaps and provide clarity.
+- Provide clear explanations and examples for complex concepts, especially for a general audience who may not be familiar with the topic.
+- Structure the content with **clarity**, breaking down complex ideas into digestible parts where necessary.
+- If relevant, include **practical examples**, **use cases**, or **analogies** to enhance understanding.
+- Use **proper markdown formatting** with:
+   - Main title as H1 (#)
+   - Major sections as H2 (##)
+   - Subsections as H3 (###)
+   - Bullet points for lists
+   - **Bold** for key terms and concepts
+   - \`\`\`Code blocks\`\`\` **only if strictly necessary to illustrate technical examples (e.g., programming code, configuration, CLI commands)**
+   - *Do not use code blocks for generic or non-technical content*
+   - Use block quotes (>) for direct quotations
+
+The final report should be **comprehensive**, addressing all important aspects of the topic, even if the provided research findings are minimal or incomplete.
+Remember to provide the report in **Spanish** and follow markdown formatting guidelines.
+
+Enclose the report in <report> tags. Don’t forget to use proper markdown formatting.
+`;

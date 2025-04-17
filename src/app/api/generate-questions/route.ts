@@ -13,7 +13,7 @@ const getResearchGoals = async (topic: string) => {
     const freeTrial = await checkApiLimit();
 
     if (!freeTrial) {
-        
+
         return NextResponse.json({
             success: false,
             error: "Has alcanzado el límite de uso gratuito. Por favor, actualiza tu cuenta para continuar."
@@ -32,14 +32,20 @@ const getResearchGoals = async (topic: string) => {
     // Prompt for generating clarifying questions
 
     const prompt = `
-    Given the research topic <topic>${topic}</topic>, generate 2 to 4 clarifying questions to define the scope of the research. Focus on identifying:
+    Given the research topic <topic>${topic}</topic>, generate 2 to 4 clarifying questions to better understand what the user wants to know.
 
-    - Specific aspects of interest
-    - Required level of depth/complexity
-    - Particular perspectives or excluded sources
+    Guidelines:
+    - Write all questions in **Spanish**
+    - First, analyze how the topic is phrased to estimate the user's likely level of knowledge (beginner, intermediate, expert)
+    - Based on that, generate questions that match the user's level:
+    - For beginners: use simple, everyday language, avoid technical terms
+    - For intermediate users: be a bit more specific, but still accessible
+    - For expert users: it's okay to include more depth or precision
+    - Do not ask unnecessary or overly complex questions
+    - Only ask about excluded sources or advanced approaches if they are clearly relevant
 
-    Ensure all questions are written in Spanish.
-    `
+    The goal is to help the user clarify their intent in a way that feels natural and useful for their level.
+    `;
 
     try {
         const { object } = await generateObject({

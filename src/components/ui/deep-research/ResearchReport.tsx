@@ -86,7 +86,7 @@ const ResearchReport = () => {
             const url = URL.createObjectURL(pdfBlob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `${topic}-InvestigAI.pdf`;
+            a.download = `${topic}-GeneradoPorApuntIA.pdf`;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -133,7 +133,7 @@ const ResearchReport = () => {
      bg-white/60 backdrop-blur-xl border antialiased
     "
         >
-            <div className="flex justify-end gap-2 mb-4 absolute top-4 right-4">
+            <div className="flex justify-end gap-2 mb-4">
                 <Button
                     size="sm"
                     className="flex items-center gap-2 rounded"
@@ -146,7 +146,7 @@ const ResearchReport = () => {
                     className="flex items-center gap-2 rounded"
                     onClick={handleMarkdownDownload}
                 >
-                    <Download className="w-4 h-4" /> Descargar
+                    <Download className="w-4 h-4" /> Descargar Markdown
                 </Button>
             </div>
 
