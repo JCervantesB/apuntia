@@ -4,7 +4,6 @@ import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { z } from 'zod';
 import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
 
-export const runtime = 'edge';
 const openrouter = createOpenRouter({
     apiKey: process.env.OPENROUTER_API_KEY || '',
 });

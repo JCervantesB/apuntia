@@ -2,7 +2,6 @@ import { createDataStreamResponse } from "ai"
 import { ResearchState } from "./types";
 import { deepResearch } from "./main";
 
-export const runtime = 'edge';
 export async function POST(req: Request) {
     try {
         const { messages } = await req.json();

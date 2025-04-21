@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";  // Cambié la importación aquí
 import puppeteer from "puppeteer";
 
-export const runtime = 'edge';
 export async function POST(req: NextRequest) {
   const { htmlContent } = await req.json(); // Recibe el HTML renderizado en el cuerpo de la solicitud
 
