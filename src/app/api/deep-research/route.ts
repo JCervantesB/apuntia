@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { createDataStreamResponse } from "ai"
 import { ResearchState } from "./types";
 import { deepResearch } from "./main";

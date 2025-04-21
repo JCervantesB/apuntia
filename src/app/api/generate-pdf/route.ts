@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { NextRequest } from "next/server";  // Cambié la importación aquí
 import puppeteer from "puppeteer";
 
