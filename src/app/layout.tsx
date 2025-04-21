@@ -1,4 +1,3 @@
-export const runtime = 'edge'
 import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
@@ -7,6 +6,7 @@ import {
 } from '@clerk/nextjs'
 import { esMX } from "@clerk/localizations";
 
+export const runtime = 'edge'
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
