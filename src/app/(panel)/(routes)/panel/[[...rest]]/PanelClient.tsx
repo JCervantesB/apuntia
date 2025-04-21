@@ -4,6 +4,7 @@ import Navigation from '@/components/ui/deep-research/Navigation';
 import { UserProfile, useUser } from '@clerk/nextjs';
 import { SubscriptionButton } from '@/components/ui/subscription-button';
 
+export const runtime = 'edge';
 const PanelClient = ({ isPro }: { isPro: boolean }) => {
     const { user } = useUser();
   return (

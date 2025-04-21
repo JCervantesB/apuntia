@@ -8,6 +8,7 @@ import { absoluteUrl } from "@/lib/utils";
 
 const settingsUrl = absoluteUrl("/panel");
 
+export const runtime = 'edge';
 export async function GET() {
     try {
         const { userId } = await auth();
