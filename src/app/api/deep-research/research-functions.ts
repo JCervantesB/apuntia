@@ -52,11 +52,12 @@ import {
       },
       researchState, activityTracker
     );
-  
+    console.log("Finalizado la planificación de la investigación", result);
     activityTracker.add("planificado", "completo", "Elaborado el plan de investigación");
-  
+    
     return result;
     }catch(error){
+      console.log("error: ", error);
       return handleError(error, `Planificación de la investigación`, activityTracker, "planificado", {
           searchQueries: [`${researchState.topic} mejores prácticas`,`${researchState.topic} pautas`, `${researchState.topic} ejemplos`  ]
       })
@@ -101,7 +102,7 @@ import {
       researchState.completedSteps++;
   
       activityTracker.add("buscar","completo",`Se encontraron ${filteredResults.length} resultados para ${query}`);
-  
+        console.log("Se encontraron resultados de búsqueda: ", filteredResults);
   
       return filteredResults;
     } catch (error) {
@@ -138,12 +139,13 @@ import {
           );
         
           activityTracker.add("extraer","completo",`Extrayendo contenido de ${url}`);
-        
+          console.log("Extracción de contenido: ", result);
           return {
             url,
             summary: (result as any).summary,
           };
       }catch(error){
+        console.log("error: ", error);
           return handleError(error, `Extracción de contenido de ${url}`, activityTracker, "extraer", null) || null
       }
   }
@@ -174,7 +176,7 @@ import {
           source: url,
         };
       });
-  
+      console.log("Resultados de la extracción: ", newFindings);
     return newFindings;
   }
   
@@ -218,6 +220,7 @@ import {
         },
         researchState, activityTracker
       );
+      console.log("Análisis de contenido: ", result);
   
       const isContentSufficient = typeof result !== 'string' && result.sufficient; 
   
@@ -225,6 +228,7 @@ import {
   
       return result;
     } catch (error) {
+      console.log("error: ", error);
       return handleError(error, `Content analysis`, activityTracker, "analizar", {
           sufficient: false,
           gaps: ["No se puede analizar el contenido"],
@@ -254,6 +258,7 @@ import {
       );
   
       activityTracker.add("generar","completo",`Informe completo generado, Total de tokens utilizados: ${researchState.tokenUsed}. Investigación realizada en ${researchState.completedSteps} pasos.`);
+      console.log("Informe generado: ", report);
   
       return report;
     } catch (error) {
