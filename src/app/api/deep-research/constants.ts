@@ -8,7 +8,7 @@ export const RETRY_DELAY_MS = 1000; // Es el retraso en milisegundos entre reint
 // Nombres de modelos
 export const MODELS = {
   PLANNING: "openai/gpt-4o",
-  EXTRACTION: "openai/gpt-4.1-mini",
+  EXTRACTION: "openai/gpt-4o-mini",
   ANALYSIS: "meta-llama/llama-4-maverick",
   REPORT: "deepseek/deepseek-chat-v3-0324"
   // REPORT: "anthropic/claude-3.7-sonnet:thinking",
