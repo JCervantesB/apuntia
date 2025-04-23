@@ -1,4 +1,5 @@
-import { NextRequest } from "next/server";  // Cambié la importación aquí
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { NextRequest } from "next/server";  
 import puppeteer from "puppeteer";
 import chromium from '@sparticuz/chromium-min';
 
