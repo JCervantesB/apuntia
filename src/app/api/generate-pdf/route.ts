@@ -1,5 +1,8 @@
-import { NextRequest } from 'next/server';  // Importa NextRequest
+import { NextRequest } from 'next/server';  
 import * as chrome from "html-pdf-chrome";
+
+// Asegúrate de que la variable CHROME_PATH esté configurada correctamente
+const chromePath = process.env.CHROME_PATH || '/usr/bin/chromium';  // Si no está configurado, usa una ruta por defecto
 
 export async function POST(req: NextRequest) {
   const { markdownContent } = await req.json(); // Recibimos el contenido Markdown
@@ -38,7 +41,6 @@ export async function POST(req: NextRequest) {
               font-size: 1rem !important;  
             }
 
-            
             table, th, td {
               border: 1px solid #ccc;
               border-collapse: collapse;
@@ -70,7 +72,6 @@ export async function POST(req: NextRequest) {
             body {
               background-color: #fff;
             }
-
           </style>
         </head>
         <body>
@@ -80,7 +81,7 @@ export async function POST(req: NextRequest) {
     `;
 
     // Usamos await para esperar la creación del PDF
-    const pdfResult = await chrome.create(htmlContent);
+    const pdfResult = await chrome.create(htmlContent, { chromePath });
 
     // Luego llamamos a toBuffer para obtener el buffer del PDF
     const pdfBuffer = await pdfResult.toBuffer();
