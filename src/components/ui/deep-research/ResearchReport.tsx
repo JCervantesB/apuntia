@@ -18,83 +18,31 @@ const ResearchReport = () => {
     const markdownRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPDF = async () => {
-        if (!markdownRef.current) return;
-    
-        const styles = `
-            <style>
-                * {
-                    box-sizing: border-box;
-                }
-                body {
-                    font-family: sans-serif;
-                    padding: 40px;
-                    overflow-wrap: break-word; /* Asegura que los textos largos no se corten */
-                }
-                pre, code {
-                    white-space: pre-wrap;
-                    word-wrap: break-word; /* Agregado para evitar corte de palabra */
-                    page-break-inside: avoid;
-                    break-inside: avoid;
-                    overflow-wrap: break-word;
-                }
-                .prose {
-                    max-width: 100%;
-                }
-                h1, h2, h3, p, ul, ol, table {
-                    page-break-inside: avoid;
-                }
-                table, th, td {
-                    border: 1px solid #ccc;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    padding: 8px;
-                    text-align: left;
-                }
-                pre {
-                    background-color: #f3f3f3;
-                    padding: 1rem;
-                    border-radius: 8px;
-                    font-size: 0.875rem;
-                    margin: 0;
-                    overflow-x: auto; /* Asegura que los bloques de código no se corten */
-                    page-break-inside: avoid;
-                    break-inside: avoid;
-                }
-            </style>
-        `;
-    
-        const html = ` 
-            <html>
-                <head>${styles}</head>
-                <body>
-                    <div class="prose">${markdownRef.current.innerHTML}</div>
-                </body>
-            </html>
-        `;
-    
+        // Usar el HTML renderizado directamente
+        const markdownHTML = markdownRef.current?.innerHTML; 
+        console.log(markdownHTML);
+        
         try {
-            const response = await fetch("/api/generate-pdf", {
+            const res = await fetch("/api/generate-pdf", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ htmlContent: html }),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ markdownContent: markdownHTML }),
             });
-    
-            const pdfBlob = await response.blob();
-            const url = URL.createObjectURL(pdfBlob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${topic}-GeneradoPorApuntIA.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error("Error al generar el PDF:", error);
+        
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${topic}-GeneradoPorApuntIA.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        } catch (e) {
+          console.error("Error:", e);
         }
-    };
+      };
+      
     
 
     const handleMarkdownDownload = () => {

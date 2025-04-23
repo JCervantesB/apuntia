@@ -1,42 +1,90 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { NextRequest } from "next/server";  
-import puppeteer from "puppeteer";
-import chromium from '@sparticuz/chromium-min';
+import { NextRequest } from 'next/server';  // Importa NextRequest
+import * as chrome from "html-pdf-chrome";
 
 export async function POST(req: NextRequest) {
-  const { htmlContent } = await req.json(); // Recibe el HTML renderizado en el cuerpo de la solicitud
+  const { markdownContent } = await req.json(); // Recibimos el contenido Markdown
 
   try {
-    // Inicia Puppeteer
-    const executablePath = await chromium.executablePath(); 
-    console.log('Ruta ejecutable de Chromium:', executablePath); 
-    const browser = await puppeteer.launch({
-      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
-      executablePath, 
-      headless: chromium.headless,
-    });
-    
-    const page = await browser.newPage();
+    const htmlContent = `
+      <html>
+        <head>
+          <style>
+            body {
+              font-family: 'Arial', sans-serif;
+              padding: 40px;
+              line-height: 1.6;
+              color: #333;
+            }
+            pre {
+              background-color: rgb(30, 30, 30) !important;  
+              color: rgb(168, 175, 186) !important; 
+              padding: 3px 6px;
+              border-radius: 8px;
+              font-size: 1rem !important; 
+              overflow-x: auto;
+              white-space: pre-wrap !important;  
+              word-wrap: break-word !important; 
+              margin-bottom: 1.5rem;
+              border: 1px solid #444 !important; 
+              font-family: 'Fira Code', 'Courier New', monospace !important; 
+            }
 
-    // Establece el contenido HTML en la página
-    await page.setContent(htmlContent, { waitUntil: "domcontentloaded" });
+            code {
+              font-family: 'Fira Code', 'Courier New', monospace !important;
+              color: rgb(168, 175, 186) !important;  
+              background-color: rgb(30, 30, 30) !important;
+              padding: 3px 6px;
+              border-radius: 4px;
+              font-size: 1rem !important;  
+            }
 
-    // Genera el PDF
-    const pdfBuffer = await page.pdf({
-        format: "A4",
-        printBackground: true,
-        margin: {
-          top: "15mm",
-          bottom: "15mm",
-          left: "15mm",
-          right: "15mm",
-        },
-      });
+            
+            table, th, td {
+              border: 1px solid #ccc;
+              border-collapse: collapse;
+              padding: 8px;
+            }
 
-    // Cierra Puppeteer
-    await browser.close();
+            th {
+              text-align: left;
+              background-color: #f4f4f4;
+            }
 
-    // Envía el archivo PDF como respuesta utilizando Response de forma nativa
+            h1, h2, h3 {
+              color: #333;
+            }
+
+            a {
+              color: #007bff;
+              text-decoration: none;
+            }
+
+            a:hover {
+              text-decoration: underline;
+            }
+
+            ul, ol {
+              padding-left: 20px;
+            }
+
+            body {
+              background-color: #fff;
+            }
+
+          </style>
+        </head>
+        <body>
+          ${markdownContent}
+        </body>
+      </html>
+    `;
+
+    // Usamos await para esperar la creación del PDF
+    const pdfResult = await chrome.create(htmlContent);
+
+    // Luego llamamos a toBuffer para obtener el buffer del PDF
+    const pdfBuffer = await pdfResult.toBuffer();
+
     return new Response(pdfBuffer, {
       headers: {
         "Content-Type": "application/pdf",
