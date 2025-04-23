@@ -18,9 +18,7 @@ const ResearchReport = () => {
     const markdownRef = useRef<HTMLDivElement>(null);
 
     const handleDownloadPDF = async () => {
-        // Usar el HTML renderizado directamente
         const markdownHTML = markdownRef.current?.innerHTML; 
-        console.log(markdownHTML);
         
         try {
             const res = await fetch("/api/generate-pdf", {
@@ -43,8 +41,6 @@ const ResearchReport = () => {
         }
       };
       
-    
-
     const handleMarkdownDownload = () => {
         const content = report.split("<report>")[1].split("</report>")[0];
         const blob = new Blob([content], { type: "text/markdown" });
