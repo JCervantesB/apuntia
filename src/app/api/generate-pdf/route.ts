@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";  // Cambié la importación aquí
 import puppeteer from "puppeteer";
+import chromium from '@sparticuz/chromium-min';
 
 export async function POST(req: NextRequest) {
   const { htmlContent } = await req.json(); // Recibe el HTML renderizado en el cuerpo de la solicitud
@@ -7,7 +8,9 @@ export async function POST(req: NextRequest) {
   try {
     // Inicia Puppeteer
     const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: chromium.args,
+      executablePath: chromium.path,
+      headless: chromium.headless,
     });
     
     const page = await browser.newPage();
