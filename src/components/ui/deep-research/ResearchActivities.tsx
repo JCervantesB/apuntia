@@ -19,7 +19,7 @@ const ResearchActivities = () => {
   if (activities.length === 0) return;
 
   return (
-    <div className='w-[90vw] sm:w-[400px] fixed top-4 right-4 z-20'>
+    <div className='w-[90vw] sm:w-[400px] fixed top-20 right-4 z-20'>
       <Collapsible className='w-full' open={isOpen} onOpenChange={setIsOpen}>
         <div className="flex justify-end mb-2">
           <CollapsibleTrigger asChild>

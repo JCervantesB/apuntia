@@ -24,7 +24,8 @@ const ResearchTimer = () => {
     const milliseconds = elapsedTime % 1000;
 
   return (
-    <Card className='p-2 bg-white/60 border border-black/10 border-solid shadow-none rounded'>
+    <Card className='p-2 bg-white/60 border border-black/10 border-solid shadow-none rounded text-center'>
+        <p className='text-muted-foreground text-sm'>Realizando la investigación, este proceso puede demorar algunos minutos</p>
         <p className=' text-sm text-muted-foreground'>
             Tiempo transcurrido: <span>{seconds > 60 ? `${Math.floor(seconds /60)}m ${seconds % 60 > 0 ? `${(seconds % 60).toString()}s` : ''}` : `${
                 seconds 
