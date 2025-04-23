@@ -78,13 +78,13 @@ const ResearchReport = () => {
     "
         >
             <div className="flex justify-end gap-2 mb-4">
-                <Button
+                {/* <Button
                     size="sm"
                     className="flex items-center gap-2 rounded"
                     onClick={handleDownloadPDF}
                 >
                     <Download className="w-4 h-4" /> Exportar PDF
-                </Button>
+                </Button> */}
                 <Button
                     size="sm"
                     className="flex items-center gap-2 rounded"
