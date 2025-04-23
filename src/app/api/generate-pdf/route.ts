@@ -8,9 +8,10 @@ export async function POST(req: NextRequest) {
 
   try {
     // Inicia Puppeteer
-    const executablePath = '/usr/bin/chromium';
+    const executablePath = await chromium.executablePath(); 
+    console.log('Ruta ejecutable de Chromium:', executablePath); 
     const browser = await puppeteer.launch({
-      args: chromium.args,
+      args: [...chromium.args, '--no-sandbox', '--disable-setuid-sandbox'],
       executablePath, 
       headless: chromium.headless,
     });
