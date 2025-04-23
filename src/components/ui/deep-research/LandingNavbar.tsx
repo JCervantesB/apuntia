@@ -24,7 +24,7 @@ const LandingNavbar = () => {
         <Link href='/' className='flex items-center'>
             <div className='relative h-8 w-8 mr-4'>
                 <Image src='/logo.png' alt='Logo' fill />
-                <h1 className={cn("text-2xl font-bold text-white ml-7", font.className)}>ApuntIA</h1>
+                <h1 className={cn("text-2xl font-bold text-white ml-7", font.className, "whitespace-nowrap")}>Apunt IA</h1>
             </div>
         </Link>
         <div className='flex items-center gap-x-2'>

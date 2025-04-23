@@ -17,7 +17,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "ApuntIA",
+  title: "Apunt IA",
   description: "Generador de informes de investigación",
 };
 
