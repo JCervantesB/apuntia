@@ -17,29 +17,29 @@ const ResearchReport = () => {
     const { report, isCompleted, isLoading, topic } = useDeepResearchStore();
     const markdownRef = useRef<HTMLDivElement>(null);
 
-    const handleDownloadPDF = async () => {
-        const markdownHTML = markdownRef.current?.innerHTML; 
+    // const handleDownloadPDF = async () => {
+    //     const markdownHTML = markdownRef.current?.innerHTML; 
         
-        try {
-            const res = await fetch("/api/generate-pdf", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ markdownContent: markdownHTML }),
-            });
+    //     try {
+    //         const res = await fetch("/api/generate-pdf", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ markdownContent: markdownHTML }),
+    //         });
         
-          const blob = await res.blob();
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = `${topic}-GeneradoPorApuntIA.pdf`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        } catch (e) {
-          console.error("Error:", e);
-        }
-      };
+    //       const blob = await res.blob();
+    //       const url = URL.createObjectURL(blob);
+    //       const a = document.createElement("a");
+    //       a.href = url;
+    //       a.download = `${topic}-GeneradoPorApuntIA.pdf`;
+    //       document.body.appendChild(a);
+    //       a.click();
+    //       document.body.removeChild(a);
+    //       URL.revokeObjectURL(url);
+    //     } catch (e) {
+    //       console.error("Error:", e);
+    //     }
+    //   };
       
     const handleMarkdownDownload = () => {
         const content = report.split("<report>")[1].split("</report>")[0];
