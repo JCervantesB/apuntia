@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
   try {
     // Inicia Puppeteer
-    const executablePath = (chromium as any).path;
+    const executablePath = '/usr/bin/chromium';
     const browser = await puppeteer.launch({
       args: chromium.args,
       executablePath, 
