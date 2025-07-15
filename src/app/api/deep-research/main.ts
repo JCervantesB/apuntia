@@ -1,3 +1,4 @@
+import prismadb from "@/lib/prismadb";
 import { createActivityTracker } from "./activity-tracker";
 import { MAX_ITERATIONS } from "./constants";
 import {
@@ -95,6 +96,31 @@ export async function deepResearch(
   console.log("Buscando: ", researchState.findings);
 
   const report = await generateReport(researchState, activityTracker);
+
+  // Guardar el resumen en la base de datos con prisma
+
+  if (!researchState.userId) {
+    throw new Error("UserId no definido");
+  }
+
+  if (typeof report !== "string") {
+    throw new Error("Report no es string");
+  }
+
+  await prismadb.summary.create({
+    data: {
+      userId: researchState.userId,
+      title: researchState.topic,
+      summaryText: report,
+      status: 'completado',
+    },
+  });
+
+  activityTracker.add(
+    "generar",
+    "completo",
+    `Se ha guardado el resumen de la investigación para el tema: ${researchState.topic}`
+  )
 
   // Asegurarnos de que `report` sea tratado como una cadena
   dataStream.writeData({

@@ -1,21 +1,34 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import QuestionAny from "@/components/ui/deep-research/QuestionAny";
 import UserInput from "@/components/ui/deep-research/UserInput";
+import { Sparkles } from "lucide-react";
 
 export default function ResearchPage() {
   return (
-      <main className="relative z-10 min-h-screen w-full max-w-[1024px] mx-auto flex flex-col items-center justify-start gap-8 py-16 px-4">
-        <div className="flex flex-col items-center gap-4">
-          <h1 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl font-bold font-exo italic bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent mt-5 whitespace-nowrap">
-            Apunt IA
-          </h1>
-          <p className="text-gray-600 text-center max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl text-sm sm:text-base md:text-lg lg:text-xl">
-            Ingresa un tema y responde unas pocas preguntas para generar completo apunte de investigación potenciado por IA
-          </p>
+    <section className='min-h-screen flex flex-col items-center'>
+      <div className='mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8'>
+        <Badge variant={"premium"} className='p-2'>
+          <Sparkles className='h-8 w-8 animate-pulse' />
+          <span>Creación de contenido Potenciado con IA</span>
+        </Badge>
+        <div className='capitalize text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>
+          Comienza tu{' '}
+          <span className="relative inline-block">
+            <span
+              className="absolute inset-0 bg-yellow-200/50 -rotate-2 rounded-lg transform -skew-y-1"
+              aria-hidden="true"
+            />
+            <span className="relative z-10 px-2">investigación</span>
+          </span> {' '}
+        </div>
+        <div className="mt-2 text-lg leading-8 text-gray-600 max-w-2xl">
+          <p className="text-base mb-8">Solo ingresa un tema y responde algunas preguntas. Apunt IA se encarga del resto.✨</p>
         </div>
         <UserInput />
         <QuestionAny />
-      </main>
+      </div>
+    </section>
   );
 }

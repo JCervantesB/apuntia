@@ -1,20 +1,36 @@
-import { NextRequest } from 'next/server';  // Importa NextRequest
+import { NextRequest, NextResponse } from 'next/server';
 import * as chrome from "html-pdf-chrome";
+import { remark } from 'remark';
+import remarkHtml from 'remark-html';
 
 export async function POST(req: NextRequest) {
   const { markdownContent } = await req.json(); // Recibimos el contenido Markdown
 
   try {
+    // 1. Convertir Markdown a HTML
+    const processedContent = await remark()
+      .use(remarkHtml)
+      .process(markdownContent);
+    const htmlBodyContent = String(processedContent);
+
+    // 2. Incluir el HTML convertido en la plantilla
+    // NOTA: Para que Tailwind CSS funcione, las clases deben estar presentes en el HTML
+    // y el CSS de Tailwind debe ser cargado. Aquí, estamos asumiendo que las clases
+    // de Tailwind están en el htmlBodyContent y que html-pdf-chrome las interpretará.
+    // Si necesitas estilos específicos de tu globals.css, deberías leerlo e inyectarlo aquí.
     const htmlContent = `
       <html>
         <head>
           <style>
+            /* Puedes inyectar aquí el contenido de tu globals.css si es necesario */
+            /* Por ejemplo, si tienes variables CSS o estilos base importantes */
             body {
               font-family: 'Arial', sans-serif;
               padding: 40px;
               line-height: 1.6;
               color: #333;
             }
+            /* Los estilos para pre, code, table, etc. que tenías antes */
             pre {
               background-color: rgb(30, 30, 30) !important;  
               color: rgb(168, 175, 186) !important; 
@@ -38,7 +54,6 @@ export async function POST(req: NextRequest) {
               font-size: 1rem !important;  
             }
 
-            
             table, th, td {
               border: 1px solid #ccc;
               border-collapse: collapse;
@@ -70,11 +85,10 @@ export async function POST(req: NextRequest) {
             body {
               background-color: #fff;
             }
-
           </style>
         </head>
         <body>
-          ${markdownContent}
+          ${htmlBodyContent}
         </body>
       </html>
     `;
@@ -93,6 +107,6 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     console.error("Error al generar el PDF:", error);
-    return new Response("Error al generar el PDF", { status: 500 });
+    return new NextResponse("Error al generar el PDF", { status: 500 });
   }
 }

@@ -1,7 +1,7 @@
 'use client'
 import { useDeepResearchStore } from '@/store/deepResearch'
 import React, { useEffect, useState } from 'react'
-import { Card } from '../card';
+import { Card } from '@/components/ui/card';
 
 const ResearchTimer = () => {
 

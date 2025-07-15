@@ -22,8 +22,8 @@ import { motion, AnimatePresence } from "framer-motion";
 const formSchema = z.object({
   input: z
     .string()
-    .min(2, { message: "El campo debe tener al menos 2 caracteres" })
-    .max(200, { message: "El campo no puede superar los 200 caracteres" }),
+    .min(2, { message: "❌El campo debe tener al menos 2 caracteres" })
+    .max(200, { message: "❌El campo no puede superar los 200 caracteres" }),
 })
 
 const UserInput = () => {
@@ -95,7 +95,7 @@ const UserInput = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit" className='rounded-full px-6 w-full lg:w-auto' disabled={isLoading}>
+              <Button type="submit" className='rounded-full px-6 w-full lg:w-auto' disabled={isLoading} variant="premium">
                 {isLoading ? (
                   <>
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />

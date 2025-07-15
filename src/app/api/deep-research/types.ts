@@ -7,6 +7,7 @@ export interface ResearchFindings {
 }
 
 export interface ResearchState {
+    userId?: string,
     topic: string,
     completedSteps: number,
     tokenUsed: number,

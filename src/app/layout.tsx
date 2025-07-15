@@ -5,6 +5,7 @@ import {
   ClerkProvider
 } from '@clerk/nextjs'
 import { esMX } from "@clerk/localizations";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <body
           className={`${inter.variable} ${montserrat.variable} font-inter antialiased min-h-screen flex flex-col`}
         >    
+          <Toaster />
           {children}
         </body>
       </html>
