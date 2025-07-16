@@ -1,15 +1,13 @@
 "use client";
 import { useDeepResearchStore } from "@/store/deepResearch";
 import React, { ComponentPropsWithRef, useRef } from "react";
-import { Card } from "@/components/ui/card";
+import { Card } from "../card";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Download } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas-pro";
 
 type CodeProps = ComponentPropsWithRef<"code"> & {
     inline?: boolean;
@@ -19,60 +17,30 @@ const ResearchReport = () => {
     const { report, isCompleted, isLoading, topic } = useDeepResearchStore();
     const markdownRef = useRef<HTMLDivElement>(null);
 
-    const handleDownloadPDF = () => {
-        if (markdownRef.current) {
-            // Guardar estilos originales
-            const originalBodyOverflow = document.body.style.overflow;
-            const originalHtmlOverflow = document.documentElement.style.overflow;
-            const originalParentOverflow = markdownRef.current.parentElement?.style.overflow;
-
-            // Establecer overflow a visible para la captura completa
-            document.body.style.overflow = 'visible';
-            document.documentElement.style.overflow = 'visible';
-            if (markdownRef.current.parentElement) {
-                markdownRef.current.parentElement.style.overflow = 'visible';
-            }
-
-            html2canvas(markdownRef.current, {
-                scale: 2, // Aumenta la escala para una mejor resolución en el PDF
-                useCORS: true, // Importante si tienes imágenes de otras fuentes
-                // Ignorar elementos que no quieres en la captura, si los hay
-                // ignoreElements: (element) => element.classList.contains('no-print'),
-            }).then((canvas) => {
-                const imgData = canvas.toDataURL("image/png");
-                const pdf = new jsPDF("p", "mm", "a4");
-
-                const imgWidth = 210; // Ancho A4 en mm (210mm)
-                const pageHeight = 297; // Alto A4 en mm (297mm)
-                const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calcula la altura de la imagen basándose en el ancho A4 y la relación de aspecto del canvas
-
-                let heightLeft = imgHeight;
-                let position = 0; // Posición Y en la página actual del PDF
-
-                // Añadir la primera página
-                pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-
-                // Bucle para añadir más páginas si el contenido se desborda
-                while (heightLeft > 0) {
-                    position = heightLeft - imgHeight; // Calcula la posición para la siguiente rebanada
-                    pdf.addPage();
-                    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-
-                pdf.save(`${topic}-research-report.pdf`);
-
-                // Restaurar estilos originales después de la captura
-                document.body.style.overflow = originalBodyOverflow;
-                document.documentElement.style.overflow = originalHtmlOverflow;
-                if (markdownRef.current.parentElement) {
-                    markdownRef.current.parentElement.style.overflow = originalParentOverflow || '';
-                }
-            });
-        }
-    };
-
+    // const handleDownloadPDF = async () => {
+    //     const markdownHTML = markdownRef.current?.innerHTML; 
+        
+    //     try {
+    //         const res = await fetch("/api/generate-pdf", {
+    //             method: "POST",
+    //             headers: { "Content-Type": "application/json" },
+    //             body: JSON.stringify({ markdownContent: markdownHTML }),
+    //         });
+        
+    //       const blob = await res.blob();
+    //       const url = URL.createObjectURL(blob);
+    //       const a = document.createElement("a");
+    //       a.href = url;
+    //       a.download = `${topic}-GeneradoPorApuntIA.pdf`;
+    //       document.body.appendChild(a);
+    //       a.click();
+    //       document.body.removeChild(a);
+    //       URL.revokeObjectURL(url);
+    //     } catch (e) {
+    //       console.error("Error:", e);
+    //     }
+    //   };
+      
     const handleMarkdownDownload = () => {
         const content = report.split("<report>")[1].split("</report>")[0];
         const blob = new Blob([content], { type: "text/markdown" });
@@ -110,13 +78,13 @@ const ResearchReport = () => {
     "
         >
             <div className="flex justify-end gap-2 mb-4">
-                <Button
+                {/* <Button
                     size="sm"
                     className="flex items-center gap-2 rounded"
                     onClick={handleDownloadPDF}
                 >
                     <Download className="w-4 h-4" /> Exportar PDF
-                </Button>
+                </Button> */}
                 <Button
                     size="sm"
                     className="flex items-center gap-2 rounded"
@@ -128,7 +96,7 @@ const ResearchReport = () => {
 
             <div
                 ref={markdownRef}
-                className="prose prose-sm md:prose-base max-w-none prose-pre:p-2"
+                className="prose prose-sm md:prose-base max-w-none prose-pre:p-2 overflow-x-scroll"
                 style={{
                     wordBreak: "break-word",
                     overflowWrap: "break-word",
@@ -192,7 +160,7 @@ const ResearchReport = () => {
                                         style={nightOwl}
                                         PreTag="div"
                                         customStyle={{
-                                            whiteWhiteSpace: "pre-wrap",
+                                            whiteSpace: "pre-wrap",
                                             wordBreak: "break-word",
                                             overflowWrap: "break-word",
                                             overflow: "hidden",
