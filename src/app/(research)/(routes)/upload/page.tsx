@@ -1,3 +1,5 @@
+'use client';
+
 import UploadForm from '@/components/ui/upload/UploadForm'
 import UploadHeader from '@/components/ui/upload/UploadHeader'
 import React from 'react'
