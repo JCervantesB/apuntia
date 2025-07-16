@@ -35,8 +35,6 @@ export async function generatePdfSummary(
         }
     ]
 ) {
-    //console.log("Respuesta de carga:", uploadResponse);
-
     if (!uploadResponse) {
         return {
             success: false,
@@ -48,12 +46,11 @@ export async function generatePdfSummary(
     const {
         serverData: {
             userId,
-            fileUrl: pdfUrl,  // Renombramos fileUrl a pdfUrl
+            fileUrl: pdfUrl,
             fileName,
         }
     } = uploadResponse[0];
 
-    // Verificación de URL del PDF
     if (!pdfUrl) {
         return {
             success: false,
@@ -63,7 +60,6 @@ export async function generatePdfSummary(
     }
 
     try {
-        // Extraer texto del PDF
         const pdfText = await fetchAndExtractPdfText(pdfUrl);
         if (!pdfText) {
             return {
@@ -76,36 +72,43 @@ export async function generatePdfSummary(
         let summary;
 
         try {
-            // Obtener el resumen del PDF
             const summaryResponse = await getPdfSummary(pdfText);
-            if (!summaryResponse || !summaryResponse.summary) {
+            console.log('getPdfSummary response:', summaryResponse);
+
+            if (summaryResponse.success && summaryResponse.summary && summaryResponse.summary.trim()) {
+                return {
+                    success: true,
+                    message: "Resumen generado exitosamente",
+                    data: summaryResponse.summary.trim(),
+                };
+            }
+
+            console.warn('getPdfSummary no generó resumen válido, intentando Gemini...');
+            const geminiResponse = await getPdfSummaryFromGemini(pdfText);
+            console.log('getPdfSummaryFromGemini response:', geminiResponse);
+
+            if (geminiResponse.success && geminiResponse.summary && geminiResponse.summary.trim()) {
+                return {
+                    success: true,
+                    message: "Resumen generado exitosamente con Gemini",
+                    data: geminiResponse.summary.trim(),
+                };
+            } else {
                 return {
                     success: false,
-                    message: 'No se pudo generar el resumen.',
+                    message: geminiResponse.error || 'Fallo al generar el resumen con Gemini',
                     data: null,
                 };
             }
-            summary = summaryResponse.summary;
-
-            return {
-                success: true,
-                message: "Resumen generado exitosamente",
-                data: summary
-            };
         } catch (error) {
-            console.log(error);
-            if (error) {
-                try {
-                    summary = await getPdfSummaryFromGemini(pdfText);
-                } catch (geminiError) {
-                    console.error(
-                        'La API de Gemini falló al generar el resumen del PDF:',
-                        geminiError
-                    );
-                    throw new Error('Fallo al generar el resumen del PDF con los servicios de IA');
-                }
-            }
+            console.error('Error generando resumen:', error);
+            return {
+                success: false,
+                message: 'Error interno generando resumen',
+                data: null,
+            };
         }
+
 
     } catch (err) {
         console.error(err);
@@ -114,51 +117,6 @@ export async function generatePdfSummary(
             message: 'Ocurrió un error inesperado',
             data: null,
         };
-    }
-}
-
-async function saveSummary({
-    userId,
-    originalFileName,
-    title,
-    summaryText,
-}: {
-    userId: string;
-    originalFileName: string;
-    title: string;
-    summaryText: string;
-}) {
-    // prisma client to save the summary
-    try {
-        const { userId } = await auth();
-        if (!userId) {
-            throw new Error('Usuario no encontrado');
-        }
-
-        // Guardar el resumen en la base de datos
-        const savedSummary = await prismadb.pdfSummary.create({
-            data: {
-                userId,
-                originalFileName,
-                title,
-                summaryText,
-                status: 'completado'
-            },
-        });
-
-        //console.log('Resumen guardado:', savedSummary);
-
-        return {
-            success: true,
-            message: 'Resumen guardado exitosamente',
-            data: {
-                id: savedSummary.id
-            }
-        };
-
-    } catch (error) {
-        console.error('Error al guardar el resumen:', error);
-        throw error;
     }
 }
 
@@ -191,8 +149,6 @@ export async function storePdfSummaryAction({
                 status: 'completado',
             },
         });
-
-        //console.log('Resumen guardado:', savedSummary);
 
         return {
             success: true,

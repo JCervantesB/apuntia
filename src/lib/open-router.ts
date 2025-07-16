@@ -28,7 +28,7 @@ export const getPdfSummary = async (pdfText: string) => {
 
     try {
         const response = await generateText({
-            model: openrouter("openai/gpt-4.1-mini"),
+            model: openrouter("deepseek/deepseek-chat-v3-0324"),
             prompt,
             system: systemPrompt
         });

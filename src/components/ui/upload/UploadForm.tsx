@@ -29,7 +29,7 @@ export default function UploadForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    // ✅ Definimos el schema solo cuando ya estamos en el cliente
+    // Definimos el schema solo cuando estamos en cliente
     const schema = z.object({
       file: z
         .instanceof(File, { message: 'Archivo no válido' })
@@ -47,17 +47,26 @@ export default function UploadForm() {
     try {
       setIsLoading(true)
       const formData = new FormData(e.currentTarget)
-      const file = formData.get('file') as File
+      const rawFile = formData.get('file')
+      console.log('rawFile:', rawFile)
 
-      const validateFields = schema.safeParse({ file })
+      // Validación manual para asegurarnos que rawFile es instancia de File
+      if (!(rawFile instanceof File)) {
+        toast('❌ Opps... archivo no válido')
+        setIsLoading(false)
+        return
+      }
+
+      const validateFields = schema.safeParse({ file: rawFile })
 
       if (!validateFields.success) {
         toast('❌ Opps... archivo no válido')
+        setIsLoading(false)
         return
       }
 
       toast('📄Subiendo PDF...')
-      const resp = await startUpload([file])
+      const resp = await startUpload([rawFile])
       if (!resp) {
         toast('❌ Opps... algo salió mal!')
         setIsLoading(false)
@@ -67,7 +76,7 @@ export default function UploadForm() {
       toast('📄Archivo procesado')
 
       const result = await generatePdfSummary(resp as any)
-      const { data = null } = result || {}
+      const data = typeof result?.data === 'string' ? result.data : null
 
       if (data) {
         toast('📄Guardando resumen...')
@@ -90,6 +99,8 @@ export default function UploadForm() {
         } else {
           toast('❌ El resumen está vacío.')
         }
+      } else {
+        toast('❌ No se pudo generar el resumen.')
       }
 
       formRef.current?.reset()

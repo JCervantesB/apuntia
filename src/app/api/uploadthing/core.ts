@@ -22,6 +22,11 @@ export const ourFileRouter = {
         const fileUrl = file.ufsUrl;
         console.log("file ufsUrl:", fileUrl);
 
+        if (!fileUrl) {
+        console.error("No se encontró la URL del archivo en 'file'");
+        throw new Error("No se encontró URL en archivo subido");
+    }
+
         return { 
             userId: metadata.userId, 
             fileUrl,
