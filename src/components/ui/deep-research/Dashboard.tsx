@@ -22,8 +22,11 @@ const Dashboard = async () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6 font-sans text-gray-800">
-      <h2 className="text-2xl font-semibold mb-5">Apuntes de investigación</h2>
-      <div className="overflow-x-auto rounded-lg shadow border border-gray-300">
+      {/* APUNTES */}
+      <h2 className="md:text-xl font-semibold mb-5">Apuntes de investigación</h2>
+
+      {/* Tabla - Desktop */}
+      <div className="hidden sm:block overflow-x-auto rounded-lg shadow border border-gray-300 mb-8">
         <table className="min-w-full bg-white text-sm sm:text-base">
           <thead className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white">
             <tr>
@@ -60,8 +63,32 @@ const Dashboard = async () => {
         </table>
       </div>
 
-      <h2 className="text-2xl font-semibold mt-12 mb-5">PDF Resúmenes</h2>
-      <div className="overflow-x-auto rounded-lg shadow border border-gray-300">
+      {/* Cards - Mobile */}
+      <div className="sm:hidden flex flex-col gap-2 mb-8">
+        {summaries.map((s) => (
+          <div
+            key={s.id}
+            className="border p-2 rounded-md bg-white text-xs flex flex-col gap-1"
+          >
+            <Link
+              href={`/summaries/${s.id}`}
+              className="font-medium hover:underline line-clamp-2 leading-tight"
+            >
+              {s.title}
+            </Link>
+            <div className="flex justify-between items-center text-[10px] text-gray-500">
+              <span>{new Date(s.createdAt).toLocaleDateString()}</span>
+              <DeleteButton id={s.id} type="apunte" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* PDF RESÚMENES */}
+      <h2 className="md:text-xl font-semibold mt-12 mb-5">PDF Resúmenes</h2>
+
+      {/* Tabla - Desktop */}
+      <div className="hidden sm:block overflow-x-auto rounded-lg shadow border border-gray-300">
         <table className="min-w-full bg-white text-sm sm:text-base">
           <thead className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white">
             <tr>
@@ -96,6 +123,27 @@ const Dashboard = async () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Cards - Mobile */}
+      <div className="sm:hidden flex flex-col gap-2">
+        {pdfSummaries.map((p) => (
+          <div
+            key={p.id}
+            className="border p-2 rounded-md bg-white text-xs flex flex-col gap-1"
+          >
+            <Link
+              href={`/pdfsummaries/${p.id}`}
+              className="font-medium hover:underline line-clamp-2 leading-tight"
+            >
+              {p.title}
+            </Link>
+            <div className="flex justify-between items-center text-[10px] text-gray-500">
+              <span>{new Date(p.createdAt).toLocaleDateString()}</span>
+              <DeleteButton id={p.id} type="pdf" />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
