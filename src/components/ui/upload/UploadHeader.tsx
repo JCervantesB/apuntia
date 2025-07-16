@@ -6,7 +6,7 @@ export default function UploadHeader() {
         <>
             <Badge variant={"premium"} className='p-2'>
                 <Sparkles className='h-8 w-8 animate-pulse' />
-                <span>Creación de contenido Potenciado con IA</span>
+                <span>Realiza Resumenes Potenciado con IA</span>
             </Badge>
 
             <div className='capitalize text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl'>

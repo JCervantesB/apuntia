@@ -69,8 +69,6 @@ export async function generatePdfSummary(
             };
         }
 
-        let summary;
-
         try {
             const summaryResponse = await getPdfSummary(pdfText);
             console.log('getPdfSummary response:', summaryResponse);

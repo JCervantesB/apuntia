@@ -56,6 +56,9 @@ const Navigation = () => {
                         <Button variant="link" asChild>
                             <Link href="/upload">Subir PDF</Link>
                         </Button>
+                        <Button variant="link" asChild>
+                            <Link href="/dashboard">Mis Apuntes</Link>
+                        </Button>
                     </div>
                     {user && (
                         <DropdownMenu>

@@ -1,7 +1,7 @@
 // open-router.ts
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { generateText } from "ai";
-import { checkApiLimit } from "./api-limit";
+import { checkApiLimit, increaseApiLimit } from "./api-limit";
 import { SUMMARY_SYSTEM_PROMPT } from "@/app/api/deep-research/prompts";
 
 const openrouter = createOpenRouter({
@@ -33,7 +33,8 @@ export const getPdfSummary = async (pdfText: string) => {
             system: systemPrompt
         });
 
-        console.log(response)
+        // console.log(response)
+        await increaseApiLimit();
         
         return {
             success: true,
@@ -73,7 +74,8 @@ export const getPdfSummaryFromGemini = async (pdfText: string) => {
             system: systemPrompt
         });
 
-        console.log(response)
+        //console.log(response)
+        await increaseApiLimit();
         
         return {
             success: true,

@@ -2,6 +2,7 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { UploadThingError } from "uploadthing/server";
 import { createUploadthing, type FileRouter } from "uploadthing/next"
+import { checkApiLimit } from "@/lib/api-limit";
 
 
 const f = createUploadthing();
@@ -9,6 +10,10 @@ const f = createUploadthing();
 export const ourFileRouter = {
     pdfUploader: f({pdf: { maxFileSize: "32MB" }}).middleware(async ({ req }) => {
        const user =  await currentUser();
+       const freeTrial = await checkApiLimit();
+       if (!freeTrial) {
+           throw new UploadThingError("Has alcanzado el límite de uso gratuito. Por favor, actualiza tu cuenta para continuar.");
+       }
 
        if(!user) throw new UploadThingError("No autorizado");
 

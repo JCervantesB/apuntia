@@ -4,6 +4,7 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { FileText } from "lucide-react";
 
 interface Props {
     params: Promise<{ id: string }>;
@@ -26,7 +27,22 @@ const PdfSummaryReport = async ({ params }: Props) => {
     const markdown = extractReport(pdfSummary.summaryText);
 
     return (
-        <div className="max-w-4xl mx-auto p-6 bg-white/60 backdrop-blur-xl rounded-xl border border-black/10 antialiased mt-20">
+        <div className="max-w-4xl mx-auto p-6 bg-white/60 backdrop-blur-xl rounded-xl border border-black/10 antialiased mt-18">
+            <div className="flex justify-between items-center">
+                <div></div>
+                <div className="text-sm">
+                    <a
+                        href={`${pdfSummary.fileUrl}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-blue-600 underline text-lg hover:text-blue-800"
+                    >
+                        <FileText className="w-4 h-4" />
+                        Ver PDF
+                    </a>
+                </div>
+            </div>
+
             <div className="prose prose-sm md:prose-base max-w-none prose-pre:p-2 overflow-x-auto">
                 <Markdown
                     remarkPlugins={[remarkGfm]}

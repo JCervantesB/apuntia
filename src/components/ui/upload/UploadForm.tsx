@@ -9,11 +9,13 @@ import { toast } from 'sonner'
 import { generatePdfSummary, storePdfSummaryAction } from '@/lib/upload-actions'
 import { formatedFileNameTitle } from '@/utils/format-utils'
 import { useRouter } from 'next/navigation'
+import { useProModal } from '@/hooks/use-pro-modal'
 
 export default function UploadForm() {
   const formRef = useRef<HTMLFormElement>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const proModal = useProModal()
 
   const { startUpload } = useUploadThing('pdfUploader', {
     onClientUploadComplete: () => {
@@ -21,6 +23,7 @@ export default function UploadForm() {
     },
     onUploadError: (err) => {
       console.error('Ocurrió un error mientras se subía', err)
+      proModal.onOpen()
     },
     onUploadBegin: () => {
       console.log('Se ha comenzado a cargar el archivo')
@@ -28,7 +31,7 @@ export default function UploadForm() {
   })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault()   
 
     // Definimos el schema solo cuando estamos en cliente
     const schema = z.object({
@@ -102,6 +105,7 @@ export default function UploadForm() {
         }
       } else {
         toast('❌ No se pudo generar el resumen.')
+        proModal.onOpen()
       }
 
       formRef.current?.reset()
