@@ -4,6 +4,8 @@ import UploadForm from '@/components/ui/upload/UploadForm'
 import UploadHeader from '@/components/ui/upload/UploadHeader'
 import React from 'react'
 
+export const dynamic = 'force-dynamic';
+
 const UploadPage = () => {
     return (
         <section className='min-h-screen flex flex-col items-center'>
