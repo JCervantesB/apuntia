@@ -1,13 +1,11 @@
 import SummaryReport from "./SummaryReport";
 
 interface Props {
-    params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
-const Page = async ({ params }: Props) => {
-    const { id } = params;
+export default async function Page({ params }: Props) {
+  const { id } = await params;
 
-    return <SummaryReport id={id} />;
-};
-
-export default Page;
+  return <SummaryReport id={id} />;
+}
