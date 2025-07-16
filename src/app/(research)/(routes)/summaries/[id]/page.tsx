@@ -5,7 +5,7 @@ interface Props {
 }
 
 const Page = async ({ params }: Props) => {
-    const { id } = await params;
+    const { id } = params;
 
     return <SummaryReport id={id} />;
 };
