@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import prismadb from "@/lib/prismadb";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -56,6 +57,7 @@ const PdfSummaryReport = async ({ params }: Props) => {
                                 {children}
                             </blockquote>
                         ),
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         code({ className, children, inline }: any) {
                             const match = /language-(\w+)/.exec(className || "");
                             return !inline && match ? (

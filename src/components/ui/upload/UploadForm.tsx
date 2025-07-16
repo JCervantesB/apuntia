@@ -26,7 +26,7 @@ export default function UploadForm() {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    const { startUpload, routeConfig } = useUploadThing('pdfUploader', {
+    const { startUpload } = useUploadThing('pdfUploader', {
         onClientUploadComplete: () => {
             toast("¡Subido exitosamente!")
         },
@@ -88,10 +88,10 @@ export default function UploadForm() {
             ]);
             //console.log({ result });
 
-            const { data = null, message = null } = result || {}
+            const { data = null } = result || {}
 
             if (data) {
-                let storeResult: any;
+                let storeResult: { success: boolean; message: string; data: { id: string } | null };
                 toast("📄Guardando Resumen...")
 
                 if (data.trim()) {  // Validar que no sea un string vacío o sólo espacios
@@ -108,7 +108,7 @@ export default function UploadForm() {
                     formRef.current?.reset();
 
                     // Redirigir al usuario a la página de resumen /pdfsummaries/[id]/
-                    if (storeResult?.data?.id) {
+                    if (storeResult.data?.id) {
                         router.push(`/pdfsummaries/${storeResult.data.id}`);
                     }
 

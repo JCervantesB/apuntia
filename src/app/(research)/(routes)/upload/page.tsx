@@ -1,7 +1,5 @@
-import { Badge } from '@/components/ui/badge'
 import UploadForm from '@/components/ui/upload/UploadForm'
 import UploadHeader from '@/components/ui/upload/UploadHeader'
-import { Sparkles } from 'lucide-react'
 import React from 'react'
 
 const UploadPage = () => {

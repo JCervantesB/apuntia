@@ -60,11 +60,14 @@ const Navigation = () => {
                     {user && (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <img
+                                <Image
                                     src={user.imageUrl}
                                     alt="avatar"
-                                    className="w-10 h-10 rounded-full cursor-pointer"
+                                    width={40}
+                                    height={40}
+                                    className="rounded-full cursor-pointer"
                                 />
+
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel className='flex items-center gap-2'>
@@ -125,10 +128,10 @@ const Navigation = () => {
                                 >
                                     Subir PDF
                                 </Link>
-                                
+
 
                                 {user && (
-                                    <div className="flex flex-col gap-4 border-t pt-4 mt-6">                                        
+                                    <div className="flex flex-col gap-4 border-t pt-4 mt-6">
                                         <Link href="/panel" className="text-xl text-white hover:underline transition-colors">
                                             Configuración
                                         </Link>
