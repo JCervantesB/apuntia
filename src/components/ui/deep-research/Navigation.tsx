@@ -107,7 +107,7 @@ const Navigation = () => {
             </SheetTrigger>
             <SheetContent
               side="top"
-              className="bg-white bg-[url('/bg-pattern.svg')] bg-no-repeat bg-cover shadow-xl transition-all duration-300 ease-in-out"
+              className="bg-white bg-no-repeat bg-cover shadow-xl transition-all duration-300 ease-in-out"
             >
               <SheetHeader>
                 <SheetTitle className="text-lg font-bold flex items-center gap-2 text-gray-800">
