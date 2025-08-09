@@ -3,11 +3,14 @@
 import { Badge } from "@/components/ui/badge";
 import QuestionAny from "@/components/ui/deep-research/QuestionAny";
 import UserInput from "@/components/ui/deep-research/UserInput";
+import ResearchActivities from "@/components/ui/deep-research/ResearchActivities";
 import { Sparkles } from "lucide-react";
 
 export default function ResearchPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <>
+      <ResearchActivities />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <section className='min-h-screen flex flex-col items-center justify-center px-4'>
       <div className='mx-auto max-w-4xl w-full'>
         <div className='text-center mb-12'>
@@ -35,6 +38,7 @@ export default function ResearchPage() {
         </div>
       </div>
     </section>
-    </div>
+      </div>
+    </>
   );
 }

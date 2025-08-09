@@ -2,10 +2,9 @@
 import { useDeepResearchStore } from '@/store/deepResearch'
 import React, { useEffect } from 'react'
 import { useChat } from '@ai-sdk/react';
-import QuestionForm from './QuestionForm'
-import ResearchActivities from './ResearchActivities';
-import ResearchReport from './ResearchReport';
+import QuestionForm from './QuestionForm';
 import ResearchTimer from './ResearchTimer';
+import ResearchReport from './ResearchReport';
 
 // Interfaces para los tipos de datos
 interface Activity {
@@ -16,8 +15,6 @@ interface Activity {
     completedSteps: number;
     tokenUsed: number;
 }
-
-
 
 // Interfaces para los tipos de mensajes
 interface ActivityMessage {
@@ -60,15 +57,22 @@ const QuestionAny = () => {
             .filter(
                 (msg): msg is ActivityMessage => {
                     console.log("Checking message:", msg);
-                    return typeof msg === "object" && msg !== null && 'type' in msg && (msg as ActivityMessage).type === "activity";
+                    return typeof msg === "object" && msg !== null && 'type' in msg && (msg as any).type === "activity";
                 }
             )
             .map((msg) => {
                 console.log("Activity message content:", msg.content);
-                return msg.content;
+                try {
+                    // Si el contenido es un string JSON, parsearlo
+                    const content = typeof msg.content === 'string' ? JSON.parse(msg.content) : msg.content;
+                    return content;
+                } catch (e) {
+                    console.error("Error parsing activity content:", e);
+                    return msg.content;
+                }
             });
 
-        console.log("Filtered activities:", activities);
+        //console.log("Filtered activities:", activities);
         setActivities(activities);
 
         const sources = activities
@@ -117,7 +121,6 @@ const QuestionAny = () => {
     return (
         <div className='flex gap-4 w-full flex-col items-center mb-16'>
             <QuestionForm />
-            <ResearchActivities />
             <ResearchTimer />
             <ResearchReport />
         </div>
