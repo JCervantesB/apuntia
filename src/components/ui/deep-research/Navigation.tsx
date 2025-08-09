@@ -20,15 +20,8 @@ import { useUser, SignOutButton } from "@clerk/nextjs"
 import { User, Menu, Brain, BookOpen, Search, Upload, Settings, LogOut } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Montserrat } from 'next/font/google'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-
-const font = Montserrat({
-  weight: '600',
-  subsets: ['latin'],
-})
 
 const Navigation = () => {
   const { user } = useUser()

@@ -35,7 +35,14 @@ export async function deepResearch(
 ) {
   let iteration = 0;
 
-  const activityTracker = createActivityTracker(dataStream, researchState);
+  const activityTracker = createActivityTracker({
+    writeData: (data) => {
+      dataStream.writeData({
+        type: data.type,
+        content: JSON.stringify(data.content)
+      });
+    }
+  }, researchState);
   const initialQueries = await generateSearchQueries(
     researchState,
     activityTracker

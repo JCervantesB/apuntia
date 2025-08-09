@@ -8,15 +8,12 @@ import {
     FileText, 
     Download, 
     Search, 
-    Zap, 
     Shield, 
-    Users, 
     Clock,
     CheckCircle,
     ArrowRight,
     Sparkles,
     Globe,
-    BookOpen,
     Target
 } from "lucide-react";
 import Link from "next/link";
@@ -271,7 +268,7 @@ const LandingContent = () => {
                                 </CardHeader>
                                 <CardContent>
                                     <p className="text-gray-300 leading-relaxed italic">
-                                        "{item.description}"
+                                        &quot;{item.description}&quot;
                                     </p>
                                 </CardContent>
                             </Card>

@@ -141,7 +141,7 @@ import {
           console.log("Extracción de contenido: ", result);
           return {
             url,
-            summary: (result as any).summary,
+            summary: typeof result === 'string' ? result : (result as { summary: string }).summary,
           };
       }catch(error){
         console.log("error: ", error);

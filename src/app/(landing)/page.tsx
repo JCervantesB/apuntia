@@ -19,7 +19,6 @@ import {
   CheckCircle,
   ArrowRight,
   Globe,
-  BookOpen,
   Target,
   Star,
   Menu,
@@ -473,7 +472,7 @@ const LandingPage = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-300 leading-relaxed">
-                    "{testimonial.description}"
+                    &quot;{testimonial.description}&quot;
                   </p>
                 </CardContent>
               </Card>

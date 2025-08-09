@@ -17,10 +17,7 @@ interface Activity {
     tokenUsed: number;
 }
 
-interface Source {
-    url: string;
-    title: string;
-}
+
 
 // Interfaces para los tipos de mensajes
 interface ActivityMessage {

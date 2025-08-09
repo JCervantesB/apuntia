@@ -14,7 +14,6 @@ interface CodeProps {
     className?: string | undefined;
     children?: ReactNode;
     inline?: boolean;
-    [key: string]: any; // Para props adicionales
 }
 
 interface Props {
