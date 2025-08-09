@@ -8,7 +8,7 @@ import { checkApiLimit } from "@/lib/api-limit";
 const f = createUploadthing();
 
 export const ourFileRouter = {
-    pdfUploader: f({pdf: { maxFileSize: "32MB" }}).middleware(async ({ req }) => {
+    pdfUploader: f({pdf: { maxFileSize: "32MB" }}).middleware(async ({ req: _req }) => { // eslint-disable-line @typescript-eslint/no-unused-vars
        const user =  await currentUser();
        const freeTrial = await checkApiLimit();
        if (!freeTrial) {

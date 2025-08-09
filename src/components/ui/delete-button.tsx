@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Trash2 } from "lucide-react";
 import { deleteSummaryAction } from "@/app/actions/delete-summary";
 
 interface DeleteButtonProps {
@@ -15,9 +16,10 @@ export default function DeleteButton({ id, type }: DeleteButtonProps) {
       <input type="hidden" name="type" value={type} />
       <button
         type="submit"
-        className="text-red-500 text-xs hover:underline"
+        className="group flex items-center justify-center p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 hover:border-red-500/40 transition-all duration-200 hover:scale-105"
+        title="Eliminar"
       >
-        Eliminar
+        <Trash2 className="w-4 h-4 text-red-400 group-hover:text-red-300 transition-colors" />
       </button>
     </form>
   );

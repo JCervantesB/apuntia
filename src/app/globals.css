@@ -46,74 +46,113 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/* Light theme - Pastel modern colors compatible with html2pdf.js and puppeteer */
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(17.65% 0.0518 261.692);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(17.65% 0.0518 261.692);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(17.65% 0.0518 261.692);
-  --primary: oklch(33.82% 0.185 264.665);
-  --primary-foreground: oklch(0.985 0.002 247.839);
-  --secondary: oklch(0.967 0.003 264.542);
-  --secondary-foreground: oklch(33.82% 0.185 264.665);
-  --custom-violet: oklch(23.82% 0.111 326.12);
-  --muted: oklch(0.967 0.003 264.542);
-  --muted-foreground: oklch(0.551 0.027 264.364);
-  --accent: oklch(0.967 0.003 264.542);
-  --accent-foreground: oklch(33.82% 0.185 264.665);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.928 0.006 264.531);
-  --input: oklch(0.928 0.006 264.531);
-  --ring: oklch(0.707 0.022 261.325);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0.002 247.839);
-  --sidebar-foreground: oklch(17.65% 0.0518 261.692);
-  --sidebar-primary: oklch(33.82% 0.185 264.665);
-  --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-accent: oklch(0.967 0.003 264.542);
-  --sidebar-accent-foreground: oklch(33.82% 0.185 264.665);
-  --sidebar-border: oklch(0.928 0.006 264.531);
-  --sidebar-ring: oklch(0.707 0.022 261.325);
+  
+  /* Base colors - soft pastels */
+  --background: hsl(0, 0%, 100%); /* Pure white */
+  --foreground: hsl(240, 15%, 15%); /* Dark blue-gray */
+  --card: hsl(0, 0%, 100%); /* Pure white */
+  --card-foreground: hsl(240, 15%, 15%); /* Dark blue-gray */
+  --popover: hsl(0, 0%, 100%); /* Pure white */
+  --popover-foreground: hsl(240, 15%, 15%); /* Dark blue-gray */
+  
+  /* Primary - Soft lavender */
+  --primary: hsl(260, 45%, 35%); /* Deep lavender */
+  --primary-foreground: hsl(240, 20%, 98%); /* Almost white with hint of blue */
+  
+  /* Secondary - Light gray with blue tint */
+  --secondary: hsl(260, 15%, 96%); /* Very light blue-gray */
+  --secondary-foreground: hsl(260, 45%, 35%); /* Deep lavender */
+  
+  /* Custom violet - Deep purple */
+  --custom-violet: hsl(320, 35%, 25%); /* Deep purple-pink */
+  
+  /* Muted colors - Soft grays */
+  --muted: hsl(260, 15%, 96%); /* Very light blue-gray */
+  --muted-foreground: hsl(260, 10%, 55%); /* Medium gray with blue tint */
+  
+  /* Accent - Same as secondary for consistency */
+  --accent: hsl(260, 15%, 96%); /* Very light blue-gray */
+  --accent-foreground: hsl(260, 45%, 35%); /* Deep lavender */
+  
+  /* Destructive - Soft coral red */
+  --destructive: hsl(15, 65%, 60%); /* Soft coral red */
+  
+  /* Borders and inputs - Light pastels */
+  --border: hsl(260, 10%, 92%); /* Light blue-gray */
+  --input: hsl(260, 10%, 92%); /* Light blue-gray */
+  --ring: hsl(260, 15%, 70%); /* Medium blue-gray */
+  
+  /* Chart colors - Pastel rainbow */
+  --chart-1: hsl(35, 70%, 65%); /* Soft orange */
+  --chart-2: hsl(180, 40%, 60%); /* Soft teal */
+  --chart-3: hsl(220, 25%, 40%); /* Soft blue */
+  --chart-4: hsl(80, 60%, 75%); /* Soft lime */
+  --chart-5: hsl(60, 65%, 70%); /* Soft yellow */
+  
+  /* Sidebar colors */
+  --sidebar: hsl(240, 20%, 98%); /* Almost white with hint of blue */
+  --sidebar-foreground: hsl(240, 15%, 15%); /* Dark blue-gray */
+  --sidebar-primary: hsl(260, 45%, 35%); /* Deep lavender */
+  --sidebar-primary-foreground: hsl(240, 20%, 98%); /* Almost white */
+  --sidebar-accent: hsl(260, 15%, 96%); /* Very light blue-gray */
+  --sidebar-accent-foreground: hsl(260, 45%, 35%); /* Deep lavender */
+  --sidebar-border: hsl(260, 10%, 92%); /* Light blue-gray */
+  --sidebar-ring: hsl(260, 15%, 70%); /* Medium blue-gray */
 }
 
+/* Dark theme - Deep pastels for dark mode */
 .dark {
-  --background: oklch(17.65% 0.0518 261.692);
-  --foreground: oklch(0.985 0.002 247.839);
-  --card: oklch(33.82% 0.185 264.665);
-  --card-foreground: oklch(0.985 0.002 247.839);
-  --popover: oklch(33.82% 0.185 264.665);
-  --popover-foreground: oklch(0.985 0.002 247.839);
-  --primary: oklch(0.928 0.006 264.531);
-  --primary-foreground: oklch(33.82% 0.185 264.665);
-  --secondary: oklch(0.278 0.033 256.848);
-  --secondary-foreground: oklch(0.985 0.002 247.839);
-  --muted: oklch(0.278 0.033 256.848);
-  --muted-foreground: oklch(0.707 0.022 261.325);
-  --accent: oklch(0.278 0.033 256.848);
-  --accent-foreground: oklch(0.985 0.002 247.839);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(33.82% 0.185 264.665);
-  --sidebar-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-accent: oklch(0.278 0.033 256.848);
-  --sidebar-accent-foreground: oklch(0.985 0.002 247.839);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* Base colors - dark with pastel hints */
+  --background: hsl(240, 15%, 15%); /* Dark blue-gray */
+  --foreground: hsl(240, 20%, 98%); /* Almost white with hint of blue */
+  --card: hsl(260, 45%, 35%); /* Deep lavender */
+  --card-foreground: hsl(240, 20%, 98%); /* Almost white */
+  --popover: hsl(260, 45%, 35%); /* Deep lavender */
+  --popover-foreground: hsl(240, 20%, 98%); /* Almost white */
+  
+  /* Primary - Light in dark mode */
+  --primary: hsl(260, 10%, 92%); /* Light blue-gray */
+  --primary-foreground: hsl(260, 45%, 35%); /* Deep lavender */
+  
+  /* Secondary - Dark blue-gray */
+  --secondary: hsl(250, 20%, 25%); /* Dark blue-gray */
+  --secondary-foreground: hsl(240, 20%, 98%); /* Almost white */
+  
+  /* Muted colors */
+  --muted: hsl(250, 20%, 25%); /* Dark blue-gray */
+  --muted-foreground: hsl(260, 15%, 70%); /* Medium blue-gray */
+  
+  /* Accent */
+  --accent: hsl(250, 20%, 25%); /* Dark blue-gray */
+  --accent-foreground: hsl(240, 20%, 98%); /* Almost white */
+  
+  /* Destructive - Bright coral in dark mode */
+  --destructive: hsl(15, 60%, 70%); /* Bright coral */
+  
+  /* Borders and inputs - Semi-transparent whites */
+  --border: hsla(0, 0%, 100%, 0.1); /* Semi-transparent white */
+  --input: hsla(0, 0%, 100%, 0.15); /* Semi-transparent white */
+  --ring: hsl(260, 10%, 55%); /* Medium gray with blue tint */
+  
+  /* Chart colors - Bright pastels for dark mode */
+  --chart-1: hsl(260, 60%, 50%); /* Bright purple */
+  --chart-2: hsl(160, 50%, 70%); /* Bright mint */
+  --chart-3: hsl(60, 65%, 70%); /* Bright yellow */
+  --chart-4: hsl(300, 60%, 65%); /* Bright magenta */
+  --chart-5: hsl(20, 70%, 65%); /* Bright orange */
+  
+  /* Sidebar colors for dark mode */
+  --sidebar: hsl(260, 45%, 35%); /* Deep lavender */
+  --sidebar-foreground: hsl(240, 20%, 98%); /* Almost white */
+  --sidebar-primary: hsl(260, 60%, 50%); /* Bright purple */
+  --sidebar-primary-foreground: hsl(240, 20%, 98%); /* Almost white */
+  --sidebar-accent: hsl(250, 20%, 25%); /* Dark blue-gray */
+  --sidebar-accent-foreground: hsl(240, 20%, 98%); /* Almost white */
+  --sidebar-border: hsla(0, 0%, 100%, 0.1); /* Semi-transparent white */
+  --sidebar-ring: hsl(260, 10%, 55%); /* Medium gray with blue tint */
 }
 
 @layer base {
@@ -150,4 +189,56 @@ pre {
 }
 .cl-internal-13u79ez, .cl-internal-13lvar6 {
   background: unset !important;
+}
+
+/* Clerk responsive fixes */
+.cl-rootBox {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.cl-card {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+.cl-main {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+@media (max-width: 640px) {
+  .cl-card {
+    padding: 1rem !important;
+    margin: 0 !important;
+  }
+  
+  .cl-rootBox {
+    padding: 0 !important;
+  }
+}
+
+/* Panel Mobile specific fixes */
+@media (max-width: 1023px) {
+  .cl-userProfile-root {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+  }
+  
+  .cl-userProfile-root .cl-card {
+    min-width: 320px !important;
+    width: 100% !important;
+  }
+  
+  .cl-userProfile-root .cl-main {
+    padding: 0.75rem !important;
+  }
+  
+  .cl-userProfile-root .cl-profileSection {
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
 }

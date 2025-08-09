@@ -1,4 +1,3 @@
-/* eslint-disable */
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
@@ -17,8 +16,9 @@ export async function POST(req: Request) {
             signature, 
             process.env.STRIPE_WEBHOOK_SECRET!
         );
-    } catch (error: any) {
-        return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
+    } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        return new NextResponse(`Webhook Error: ${errorMessage}`, { status: 400 });
     }
 
     const session = event.data.object as Stripe.Checkout.Session;
@@ -42,7 +42,7 @@ export async function POST(req: Request) {
             userId: session.metadata.userId,
             stripeSubscriptionId: subscription.id,
             stripeCustomerId: subscription.customer as string,
-            stripePriceId: subscription.items.data[0].price.id,
+            stripePriceId: subscription.items.data[0]?.price.id || '',
             stripeCurrentPreriodEnd: new Date(
                 subscription.current_period_end * 1000
             ),
@@ -60,7 +60,7 @@ export async function POST(req: Request) {
                 stripeSubscriptionId: subscription.id,
             },
             data: {
-                stripePriceId: subscription.items.data[0].price.id,
+                stripePriceId: subscription.items.data[0]?.price.id || '',
                 stripeCurrentPreriodEnd: new Date(
                     subscription.current_period_end * 1000
                 ),

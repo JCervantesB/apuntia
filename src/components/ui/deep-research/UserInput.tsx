@@ -1,4 +1,3 @@
-/* eslint-disable */
 "use client"
 import React, { useState } from 'react'
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -59,7 +58,7 @@ const UserInput = () => {
       setTopic(values.input)
       setQuestions(data)
       setIsSubmitted(true)
-    } catch (error) {
+    } catch (_error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       setErrorMsg("Error inesperado. Intenta de nuevo.")
     } finally {
       setIsLoading(false)
@@ -88,14 +87,14 @@ const UserInput = () => {
                       <Input
                         placeholder="Comienza ingresando un tema de investigación"
                         {...field}
-                        className='rounded-full w-full p-4 py-6 placeholder:text-sm bg-white/60 border-solid shadow-none'
+                        className='rounded-xl w-full p-4 py-6 placeholder:text-sm bg-white/10 border-white/20 text-white placeholder:text-gray-400 focus:bg-white/20 transition-colors shadow-lg'
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className='rounded-full px-6 w-full lg:w-auto' disabled={isLoading} variant="premium">
+              <Button type="submit" className='rounded-xl px-8 py-6 w-full lg:w-auto bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold shadow-lg transition-all duration-200' disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />
@@ -109,7 +108,7 @@ const UserInput = () => {
       </Form>
 
       {errorMsg && (
-        <div className="text-red-600 text-sm mt-2">
+        <div className="text-red-400 text-sm mt-2 bg-red-500/10 border border-red-500/20 rounded-lg p-3">
           {errorMsg}
         </div>
       )}

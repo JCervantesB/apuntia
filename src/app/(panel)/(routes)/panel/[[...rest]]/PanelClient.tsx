@@ -1,29 +1,38 @@
 'use client';
-import React from 'react';
-import Navigation from '@/components/ui/deep-research/Navigation';
-import { UserProfile, useUser } from '@clerk/nextjs';
-import { SubscriptionButton } from '@/components/ui/subscription-button';
+import React, { useState, useEffect } from 'react';
+import PanelMobile from './PanelMobile';
+import PanelDesktop from './PanelDesktop';
 
 const PanelClient = ({ isPro }: { isPro: boolean }) => {
-  const { user } = useUser();
-  return (
-    <div className="flex flex-col items-center justify-start gap-8 py-16">
-      <Navigation />
-      <div>
-        <UserProfile />
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+      setIsLoading(false);
+    };
+
+    // Check initial screen size
+    checkScreenSize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
+  // Show loading state to prevent hydration mismatch
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-400"></div>
       </div>
-      <div className="flex items-center flex-col px-4 lg:px-8 space-y-2 mt-6 border rounded-xl p-4 w-full max-w-md bg-muted/50 shadow-sm">
-        <h2 className="text-lg font-semibold">Estado de tu suscripción</h2>
-        <p className="text-muted-foreground text-sm">
-          Hola <span className='font-bold'>{user?.username} </span>
-          {isPro
-            ? "actualmente tienes un plan Pro con acceso ilimitado."
-            : "actualmente cuentas con un plan gratuito con acceso limitado."}
-        </p>
-        <SubscriptionButton isPro={isPro} />
-      </div>
-    </div>
-  );
+    );
+  }
+
+  return isMobile ? <PanelMobile isPro={isPro} /> : <PanelDesktop isPro={isPro} />;
 };
 
 export default PanelClient;

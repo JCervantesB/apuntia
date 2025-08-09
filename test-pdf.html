@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test PDF Generation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+    <div id="content">
+        <h1>Test PDF Content</h1>
+        <p>This is a test to verify if html2pdf.js works correctly.</p>
+        <div style="background-color: hsl(220, 14%, 96%); padding: 20px; margin: 10px 0;">
+            <h2>Test with HSL colors</h2>
+            <p>This should work without OKLCH errors.</p>
+        </div>
+    </div>
+    
+    <button onclick="generatePDF()">Generate PDF</button>
+    
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('content');
+            const options = {
+                margin: 0.5,
+                filename: 'test.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(options).from(element).save().then(() => {
+                console.log('PDF generated successfully');
+            }).catch((error) => {
+                console.error('Error generating PDF:', error);
+            });
+        }
+    </script>
+</body>
+</html>

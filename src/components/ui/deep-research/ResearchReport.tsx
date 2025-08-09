@@ -8,6 +8,8 @@ import { Download } from "lucide-react";
 import { Button } from "../button";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { nightOwl } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { ProfessionalPDFButton } from "../ProfessionalPDFButton";
+import "@/styles/pdf-styles.css";
 
 type CodeProps = ComponentPropsWithRef<"code"> & {
     inline?: boolean;
@@ -17,33 +19,12 @@ const ResearchReport = () => {
     const { report, isCompleted, isLoading, topic } = useDeepResearchStore();
     const markdownRef = useRef<HTMLDivElement>(null);
 
-    // const handleDownloadPDF = async () => {
-    //     const markdownHTML = markdownRef.current?.innerHTML; 
-        
-    //     try {
-    //         const res = await fetch("/api/generate-pdf", {
-    //             method: "POST",
-    //             headers: { "Content-Type": "application/json" },
-    //             body: JSON.stringify({ markdownContent: markdownHTML }),
-    //         });
-        
-    //       const blob = await res.blob();
-    //       const url = URL.createObjectURL(blob);
-    //       const a = document.createElement("a");
-    //       a.href = url;
-    //       a.download = `${topic}-GeneradoPorApuntIA.pdf`;
-    //       document.body.appendChild(a);
-    //       a.click();
-    //       document.body.removeChild(a);
-    //       URL.revokeObjectURL(url);
-    //     } catch (e) {
-    //       console.error("Error:", e);
-    //     }
-    //   };
+
       
     const handleMarkdownDownload = () => {
-        const content = report.split("<report>")[1].split("</report>")[0];
-        const blob = new Blob([content], { type: "text/markdown" });
+        const reportParts = report.split("<report>");
+        const content = reportParts.length > 1 && reportParts[1] ? reportParts[1].split("</report>")[0] : report;
+        const blob = new Blob([content || report], { type: "text/markdown" });
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
@@ -73,22 +54,23 @@ const ResearchReport = () => {
 
     return (
         <Card
-            className="max-w-[90vw] xl:max-w-[60vw] relative px-4 py-6 rounded-xl border-black/10 border-solid shadow-none p-6
-     bg-white/60 backdrop-blur-xl border antialiased
-    "
+            className="max-w-[90vw] xl:max-w-[60vw] relative px-4 py-6 rounded-xl bg-gradient-to-br from-slate-900/90 via-gray-800/90 to-slate-900/90 backdrop-blur-xl border border-white/20 ring-1 ring-white/10 shadow-2xl antialiased"
         >
             <div className="flex justify-end gap-2 mb-4">
-                {/* <Button
-                    size="sm"
-                    className="flex items-center gap-2 rounded"
-                    onClick={handleDownloadPDF}
-                >
-                    <Download className="w-4 h-4" /> Exportar PDF
-                </Button> */}
+                <ProfessionalPDFButton 
+                    summaryData={{
+                        id: `research-${Date.now()}`,
+                        title: topic || 'Investigación',
+                        content: report,
+                        createdAt: new Date()
+                    }}
+                    filename={`investigacion-${topic || 'reporte'}`}
+                />
                 <Button
-                    size="sm"
-                    className="flex items-center gap-2 rounded"
                     onClick={handleMarkdownDownload}
+                    variant="secondary"
+                    size="sm"
+                    className="gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 border border-gray-300"
                 >
                     <Download className="w-4 h-4" /> Descargar Markdown
                 </Button>
@@ -96,8 +78,13 @@ const ResearchReport = () => {
 
             <div
                 ref={markdownRef}
-                className="prose prose-sm md:prose-base max-w-none prose-pre:p-2 overflow-x-scroll"
+                id="summary-content"
+                className="pdf-content prose prose-sm md:prose-base max-w-none prose-pre:p-2 overflow-x-auto bg-white/95 backdrop-blur-sm p-6 rounded-lg border border-white/30"
                 style={{
+                    fontFamily: 'Arial, Helvetica, sans-serif',
+                    lineHeight: '1.6',
+                    color: '#1f2937',
+                    backgroundColor: '#ffffff',
                     wordBreak: "break-word",
                     overflowWrap: "break-word",
                 }}
@@ -105,19 +92,22 @@ const ResearchReport = () => {
                 <Markdown
                     remarkPlugins={[remarkGfm]}
                     components={{
-                        h1: ({ children }) => <h1 className="text-2xl font-bold mb-6">{children}</h1>,
-                        h2: ({ children }) => <h2 className="text-xl font-bold mt-5 mb-4">{children}</h2>,
-                        h3: ({ children }) => <h3 className="text-lg font-bold mt-5 mb-4">{children}</h3>,
-                        p: ({ children }) => <p className="mb-4">{children}</p>,
-                        ul: ({ children }) => <ul className="list-disc list-inside mb-4">{children}</ul>,
-                        ol: ({ children }) => <ol className="list-decimal list-inside mb-4">{children}</ol>,
-                        li: ({ children }) => <li className="pl-3 mb-2 list-none">{children}</li>,
+                        h1: ({ children }) => <h1 className="text-xl font-bold text-gray-900 mt-3 mb-2 pb-1.5 border-b-2 border-purple-600">{children}</h1>,
+                        h2: ({ children }) => <h2 className="text-base font-bold text-gray-900 mt-2.5 mb-1.5 pb-1 border-b border-purple-400">{children}</h2>,
+                        h3: ({ children }) => <h3 className="text-sm font-bold text-gray-900 mt-2 mb-1.5">{children}</h3>,
+                        h4: ({ children }) => <h4 className="text-sm font-bold text-gray-900 mt-1.5 mb-1">{children}</h4>,
+                        h5: ({ children }) => <h5 className="text-xs font-bold text-gray-900 mt-1.5 mb-1">{children}</h5>,
+                        h6: ({ children }) => <h6 className="text-xs font-bold text-gray-900 mt-1 mb-1">{children}</h6>,
+                        p: ({ children }) => <p className="text-sm leading-relaxed text-gray-800 mb-1.5 text-justify">{children}</p>,
+                        ul: ({ children }) => <ul className="list-disc list-inside mb-2">{children}</ul>,
+                        ol: ({ children }) => <ol className="list-decimal list-inside mb-2">{children}</ol>,
+                        li: ({ children }) => <li className="text-sm leading-snug text-gray-800 mb-1 ml-4">{children}</li>,
                         blockquote: ({ children }) => (
-                            <blockquote className="border-l-4 border-gray-400 pl-4 italic text-gray-600 mb-4">
+                            <blockquote className="border-l-4 border-purple-500 pl-2 py-2 mt-1.5 mb-2 italic text-purple-800 bg-purple-50 text-sm leading-snug">
                                 {children}
                             </blockquote>
                         ),
-                        hr: () => <hr className="my-6 border-gray-300" />,
+                        hr: () => <hr className="my-2.5 border-gray-200" />,
                         em: ({ children }) => <em className="italic">{children}</em>,
                         del: ({ children }) => <del className="text-gray-500">{children}</del>,
                         kbd: ({ children }) => (
@@ -126,19 +116,21 @@ const ResearchReport = () => {
                             </kbd>
                         ),
                         pre: ({ children }) => (
-                            <pre className="bg-gray-100 p-2 rounded overflow-x-auto mb-4">{children}</pre>
+                            <pre className="border-blue-500 font-mono text-xs leading-tight text-slate-800 overflow-x-auto">{children}</pre>
                         ),
-                        strong: ({ children }) => <strong className="font-bold text-black">{children}</strong>,
+                        strong: ({ children }) => <strong className="font-bold">{children}</strong>,
                         table: ({ children }) => (
-                            <table className="w-full border-separate border-spacing-0 border border-gray-300 mb-5 rounded-md overflow-hidden">
-                                {children}
-                            </table>
+                            <div className="pdf-table-container mt-2 mb-2">
+                                <table className="w-full border-collapse border border-gray-300">
+                                    {children}
+                                </table>
+                            </div>
                         ),
-                        thead: ({ children }) => <thead className="bg-gray-100 border-b">{children}</thead>,
+                        thead: ({ children }) => <thead className="bg-gray-100">{children}</thead>,
                         th: ({ children }) => (
-                            <th className="border px-4 py-2 text-left font-semibold">{children}</th>
+                            <th className="border border-gray-300 px-2 py-2 text-left font-bold text-gray-800 bg-gray-100 text-xs">{children}</th>
                         ),
-                        td: ({ children }) => <td className="border px-4 py-2">{children}</td>,
+                        td: ({ children }) => <td className="border border-gray-300 px-2 py-2 text-gray-700 text-xs">{children}</td>,
                         a: ({ href, children }) => (
                             <a
                                 href={href}
@@ -149,50 +141,49 @@ const ResearchReport = () => {
                                 {children}
                             </a>
                         ),
-                        code({ className, children, inline, ...props }: CodeProps) {
+                        code({ className, children, inline, ..._props }: CodeProps) { // eslint-disable-line @typescript-eslint/no-unused-vars
                             const match = /language-(\w+)/.exec(className || "");
-                            const language = match ? match[1] : "";
-
-                            if (!inline && language) {
-                                return (
-                                    <SyntaxHighlighter
-                                        language={language}
-                                        style={nightOwl}
+                            return !inline && match ? (
+                                <div className="bg-gray-800 border-l-4 border-blue-400 rounded-md my-2 mx-0 overflow-hidden">
+                                    <div className="bg-gray-700 px-3 py-1 text-xs text-gray-300 font-medium border-b border-gray-600">
+                                        {match[1]?.toUpperCase() || 'CODE'}
+                                    </div>
+                                    <SyntaxHighlighter 
+                                        language={match[1] || 'text'} 
+                                        style={nightOwl} 
                                         PreTag="div"
                                         customStyle={{
-                                            whiteSpace: "pre-wrap",
-                                            wordBreak: "break-word",
-                                            overflowWrap: "break-word",
-                                            overflow: "hidden",
-                                            fontSize: "0.875rem",
-                                            pageBreakInside: "avoid",
-                                            breakInside: "avoid",
-                                            margin: 0,
+                                            margin: '0',
+                                            padding: '1rem',
+                                            borderRadius: '0',
+                                            fontSize: '0.75rem',
+                                            lineHeight: '1.4',
+                                            backgroundColor: '#1f2937',
+                                            color: '#f8fafc',
+                                            border: 'none',
+                                            fontFamily: 'Consolas, Monaco, "Courier New", monospace'
+                                        }}
+                                        showLineNumbers={true}
+                                        lineNumberStyle={{
+                                            color: '#6b7280',
+                                            fontSize: '0.7rem',
+                                            paddingRight: '1rem',
+                                            minWidth: '2rem'
                                         }}
                                     >
                                         {String(children).replace(/\n$/, "")}
                                     </SyntaxHighlighter>
-                                );
-                            }
-
-                            return (
-                                <code
-                                    style={{
-                                        background: "#f3f3f3",
-                                        padding: "0.2em 0.4em",
-                                        borderRadius: "4px",
-                                        whiteSpace: "pre-wrap",
-                                        wordBreak: "break-word",
-                                    }}
-                                    {...props}
-                                >
-                                    {children}
-                                </code>
+                                </div>
+                            ) : (
+                                <code className="bg-slate-50 px-1 py-0.5 rounded text-xs font-mono text-slate-800">{children}</code>
                             );
                         }
                     }}
                 >
-                    {report.split("<report>")[1].split("</report>")[0]}
+                    {(() => {
+                        const reportParts = report.split("<report>");
+                        return reportParts.length > 1 && reportParts[1] ? reportParts[1].split("</report>")[0] : report;
+                    })()}
                 </Markdown>
             </div>
         </Card>

@@ -31,7 +31,7 @@ export default function RootLayout({
     <ClerkProvider localization={esMX}>
       <html lang="es">
         <body
-          className={`${inter.variable} ${montserrat.variable} font-inter antialiased min-h-screen flex flex-col`}
+          className={`${inter.variable} ${montserrat.variable} font-inter antialiased`}
         >    
           <Toaster />
           {children}

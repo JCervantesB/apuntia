@@ -1,0 +1,199 @@
+/* Estilos específicos para la generación de PDF */
+
+/* Configuración general para PDF */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  body {
+    font-family: 'Arial', 'Helvetica', sans-serif !important;
+    line-height: 1.6 !important;
+    color: #1f2937 !important;
+  }
+}
+
+/* Estilos para elementos de contenido PDF */
+.pdf-content {
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+/* Estilos para bloques de código en PDF */
+.pdf-code-block {
+  page-break-inside: avoid;
+  margin: 1rem 0;
+}
+
+.pdf-code-block pre {
+  background-color: #1e293b !important;
+  color: #e2e8f0 !important;
+  border: 1px solid #334155 !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-family: 'Courier New', 'Monaco', monospace !important;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Estilos para tablas en PDF */
+.pdf-table-container {
+  page-break-inside: avoid;
+  margin: 1.5rem 0;
+}
+
+.pdf-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #6b7280;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-table-container th {
+  background-color: #f3f4f6 !important;
+  color: #1f2937 !important;
+  font-weight: bold;
+  border: 1px solid #6b7280;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.pdf-table-container td {
+  border: 1px solid #6b7280;
+  padding: 0.75rem 1rem;
+  color: #374151;
+}
+
+/* Estilos para títulos en PDF */
+.pdf-content h1 {
+  color: #1f2937 !important;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 2rem 0 1.5rem 0;
+  page-break-after: avoid;
+}
+
+.pdf-content h2 {
+  color: #1f2937 !important;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1.5rem 0 1rem 0;
+  page-break-after: avoid;
+}
+
+.pdf-content h3 {
+  color: #1f2937 !important;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 1.25rem 0 0.75rem 0;
+  page-break-after: avoid;
+}
+
+/* Estilos para párrafos en PDF */
+.pdf-content p {
+  margin-bottom: 1rem;
+  text-align: justify;
+  line-height: 1.6;
+}
+
+/* Estilos para listas en PDF */
+.pdf-content ul,
+.pdf-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.pdf-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Estilos para citas en PDF */
+.pdf-content blockquote {
+  border-left: 4px solid #3b82f6;
+  background-color: #eff6ff !important;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #374151 !important;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Estilos para código inline en PDF */
+.pdf-content code {
+  background-color: #f3f4f6 !important;
+  color: #1f2937 !important;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', 'Monaco', monospace;
+  font-size: 0.875rem;
+  border: 1px solid #d1d5db;
+}
+
+/* Estilos para enlaces en PDF */
+.pdf-content a {
+  color: #2563eb !important;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* Estilos para separadores en PDF */
+.pdf-content hr {
+  border: none;
+  border-top: 2px solid #e5e7eb;
+  margin: 2rem 0;
+}
+
+/* Evitar saltos de página en elementos específicos */
+.pdf-content h1,
+.pdf-content h2,
+.pdf-content h3,
+.pdf-content h4,
+.pdf-content h5,
+.pdf-content h6 {
+  page-break-after: avoid;
+}
+
+.pdf-content pre,
+.pdf-code-block,
+.pdf-table-container {
+  page-break-inside: avoid;
+}
+
+/* Estilos para elementos destacados */
+.pdf-content strong {
+  font-weight: bold;
+  color: #1f2937 !important;
+}
+
+.pdf-content em {
+  font-style: italic;
+  color: #374151 !important;
+}
+
+/* Estilos para elementos tachados */
+.pdf-content del {
+  text-decoration: line-through;
+  color: #6b7280 !important;
+}
+
+/* Estilos para elementos kbd */
+.pdf-content kbd {
+  background-color: #f3f4f6 !important;
+  color: #1f2937 !important;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', 'Monaco', monospace;
+  font-size: 0.75rem;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}

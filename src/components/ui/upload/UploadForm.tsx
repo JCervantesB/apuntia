@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import React, { useRef, useState } from 'react'
@@ -10,6 +9,25 @@ import { generatePdfSummary, storePdfSummaryAction } from '@/lib/upload-actions'
 import { formatedFileNameTitle } from '@/utils/format-utils'
 import { useRouter } from 'next/navigation'
 import { useProModal } from '@/hooks/use-pro-modal'
+
+// Interfaz para la respuesta de uploadthing
+interface UploadResponse {
+  name: string;
+  size: number;
+  key: string;
+  lastModified: number;
+  serverData: {
+    userId: string;
+    fileUrl: string;
+    fileName: string;
+  };
+  url: string;
+  appUrl: string;
+  ufsUrl: string;
+  customId: null | string;
+  type: string;
+  fileHash: string;
+}
 
 export default function UploadForm() {
   const formRef = useRef<HTMLFormElement>(null)
@@ -79,7 +97,7 @@ export default function UploadForm() {
 
       toast('📄Archivo procesado')
 
-      const result = await generatePdfSummary(resp as any)
+      const result = await generatePdfSummary(resp as [UploadResponse])
       const data = typeof result?.data === 'string' ? result.data : null
 
       if (data) {
@@ -87,11 +105,11 @@ export default function UploadForm() {
 
         if (data.trim()) {
           const storeResult = await storePdfSummaryAction({
-            originalFileName: resp[0].serverData.fileUrl,
-            title: formatedFileNameTitle(resp[0].serverData.fileName),
+            originalFileName: resp[0]?.serverData?.fileUrl || '',
+            title: formatedFileNameTitle(resp[0]?.serverData?.fileName || ''),
             summaryText: data,
-            uploadKey: resp[0].key,
-            fileUrl: resp[0].serverData.fileUrl,
+            uploadKey: resp[0]?.key || '',
+            fileUrl: resp[0]?.serverData?.fileUrl || '',
           })
 
           toast('✅ ¡Tu PDF ha sido resumido y guardado exitosamente!')

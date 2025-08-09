@@ -45,9 +45,9 @@ export async function generatePdfSummary(
 
     const {
         serverData: {
-            userId,
+            userId: _userId, // eslint-disable-line @typescript-eslint/no-unused-vars
             fileUrl: pdfUrl,
-            fileName,
+            fileName: _fileName, // eslint-disable-line @typescript-eslint/no-unused-vars
         }
     } = uploadResponse[0];
 
@@ -119,7 +119,7 @@ export async function generatePdfSummary(
 }
 
 export async function storePdfSummaryAction({
-    userId,
+    userId: _userId, // eslint-disable-line @typescript-eslint/no-unused-vars
     originalFileName,
     title,
     summaryText,
@@ -142,8 +142,8 @@ export async function storePdfSummaryAction({
                 originalFileName,
                 title,
                 summaryText,
-                uploadKey,
-                fileUrl,
+                uploadKey: uploadKey ?? null,
+                fileUrl: fileUrl ?? null,
                 status: 'completado',
             },
         });

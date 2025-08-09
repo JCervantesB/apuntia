@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { auth } from '@clerk/nextjs/server';
 
 import prismadb from './prismadb';
@@ -30,7 +29,8 @@ export const checkSubscription = async () => {
 
     const isValid = 
         userSuscription.stripePriceId &&
-        userSuscription.stripeCurrentPreriodEnd?.getTime()! + DAY_IN_MS > Date.now();
+        userSuscription.stripeCurrentPreriodEnd &&
+        userSuscription.stripeCurrentPreriodEnd.getTime() + DAY_IN_MS > Date.now();
 
     return !!isValid;
 };

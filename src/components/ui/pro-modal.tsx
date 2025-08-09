@@ -1,7 +1,5 @@
-/* eslint-disable */
 'use client';
 
-import { useState } from 'react';
 import axios from 'axios';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
@@ -15,20 +13,15 @@ import { useProModal } from '@/hooks/use-pro-modal';
 
 export const ProModal = () => {
     const proModal = useProModal();
-    const [loading, setLoading] = useState(false);
 
     const onSubscribe = async () => {
         try {
-            setLoading(true);
             const response = axios.get("/api/stripe");
 
             window.location.href = (await response).data.url;
 
         } catch (error) {
             console.log("Error al abrir la ventana de pago: ", error);
-            
-        } finally {
-            setLoading(false);
         }
     }
 

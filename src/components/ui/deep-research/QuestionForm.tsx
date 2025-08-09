@@ -69,15 +69,15 @@ const QuestionForm = () => {
         className="w-full flex justify-center"
       >
         <Card
-          className='w-full max-w-[90vw] sm:max-w-[80vw] xl:max-w-[50vw] shadow-xl border rounded-xl border-black/10 px-4 py-6'
+          className='w-full max-w-[90vw] sm:max-w-[80vw] xl:max-w-[50vw] shadow-2xl border rounded-2xl bg-gradient-to-br from-purple-900/40 via-slate-800/50 to-indigo-900/40 backdrop-blur-xl border-purple-300/30 px-4 py-6 ring-1 ring-purple-400/20'
         >
           <CardHeader className='px-4 sm:px-6'>
-            <CardTitle className='text-base text-primary/50'>
+            <CardTitle className='text-base text-purple-300'>
               Pregunta {currentQuestion + 1} de {questions.length}
             </CardTitle>
           </CardHeader>
           <CardContent className='space-y-6 w-full px-4 sm:px-6'>
-            <p className='text-base'>{questions[currentQuestion]}</p>
+            <p className='text-base text-white'>{questions[currentQuestion]}</p>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <FormField
@@ -89,7 +89,7 @@ const QuestionForm = () => {
                         <Textarea
                           placeholder="Escribe tu respuesta aquí..."
                           {...field}
-                          className='px-4 py-2 text-base resize-none placeholder:text-sm border-black/20 focus:outline-none focus:ring-2 focus:ring-primary'
+                          className='px-4 py-2 text-base resize-none placeholder:text-gray-400 bg-white/10 border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400 rounded-xl'
                         />
                       </FormControl>
                       <FormMessage />
@@ -104,19 +104,20 @@ const QuestionForm = () => {
                         form.setValue("answer", answers[currentQuestion - 1] || "")
                       }
                     }}
+                    className="bg-white/20 border-white/40 text-white hover:bg-white/30 hover:border-white/60 rounded-xl transition-all duration-200 shadow-md"
                   >
                     Anterior
                   </Button>
-                  <Button type="submit" disabled={isLoading}>
+                  <Button type="submit" disabled={isLoading} className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl shadow-lg">
                     {currentQuestion === questions.length - 1 ? "Comenzar investigación" : "Siguiente"}
                   </Button>
                 </div>
               </form>
             </Form>
 
-            <div className='h-1 w-full bg-gray-200 rounded'>
+            <div className='h-1 w-full bg-white/20 rounded'>
               <div
-                className='h-1 bg-primary rounded transition-all duration-300'
+                className='h-1 bg-gradient-to-r from-purple-400 to-pink-400 rounded transition-all duration-300'
                 style={{
                   width: `${((currentQuestion + 1) / questions.length) * 100}%`
                 }}

@@ -1,4 +1,3 @@
-/* eslint-disable */
 "use client"
 import { useDeepResearchStore } from '@/store/deepResearch'
 import React, { useEffect } from 'react'
@@ -7,6 +6,34 @@ import QuestionForm from './QuestionForm'
 import ResearchActivities from './ResearchActivities';
 import ResearchReport from './ResearchReport';
 import ResearchTimer from './ResearchTimer';
+
+// Interfaces para los tipos de datos
+interface Activity {
+    type: 'buscar' | 'extraer' | 'analizar' | 'generar' | 'planificado';
+    status: 'pendiente' | 'completo' | 'advertencia' | 'error';
+    message: string;
+    timestamp: number;
+    completedSteps: number;
+    tokenUsed: number;
+}
+
+interface Source {
+    url: string;
+    title: string;
+}
+
+// Interfaces para los tipos de mensajes
+interface ActivityMessage {
+    type: 'activity';
+    content: Activity;
+}
+
+interface ReportMessage {
+    type: 'report';
+    content: string;
+}
+
+type ChatMessage = ActivityMessage | ReportMessage | unknown;
 
 const QuestionAny = () => {
     const {
@@ -25,41 +52,47 @@ const QuestionAny = () => {
         api: "/api/deep-research",
     });
 
-    //console.log("Data: ", data);
-
     useEffect(() => {
         if (!data) return;
-        // Extraer actividades y fuentes
-        const messages = data as unknown[];
+        console.log("Raw data received:", data);
+        
+        const messages = data as ChatMessage[];
+        console.log("Messages:", messages);
+        
         const activities = messages
             .filter(
-                (msg) => typeof msg === "object" && (msg as any).type === "activity"
+                (msg): msg is ActivityMessage => {
+                    console.log("Checking message:", msg);
+                    return typeof msg === "object" && msg !== null && 'type' in msg && (msg as ActivityMessage).type === "activity";
+                }
             )
-            .map((msg) => (msg as any).content);
+            .map((msg) => {
+                console.log("Activity message content:", msg.content);
+                return msg.content;
+            });
 
+        console.log("Filtered activities:", activities);
         setActivities(activities);
 
         const sources = activities
             .filter(
                 (activity) =>
-                    activity.type === "extract" && activity.status === "complete"
+                    activity.type === "extraer" && activity.status === "completo"
             )
             .map((activity) => {
-                const url = activity.message.split("de ")[1];
+                const url = activity.message?.split("de ")[1];
                 return {
-                    url,
-                    title: url?.split("/")[2] || url,
+                    url: url || '',
+                    title: url?.split("/")[2] || url || 'Unknown',
                 };
-            });
+            })
+            .filter((source) => source.url !== '');
         setSources(sources);
 
         const reportData = messages.find(
-            (msg) => typeof msg === "object" && (msg as any).type === "report"
+            (msg): msg is ReportMessage => typeof msg === "object" && msg !== null && 'type' in msg && (msg as ReportMessage).type === "report"
         );
-        const report =
-            typeof (reportData as any)?.content === "string"
-                ? (reportData as any).content
-                : "";
+        const report = reportData?.content || "";
         setReport(report);
 
         setIsLoading(isLoading);

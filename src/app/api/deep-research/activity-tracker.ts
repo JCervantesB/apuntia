@@ -1,8 +1,21 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Activity, ResearchState } from './types';
 
+// Interfaz para el stream de datos
+interface DataStream {
+  writeData(data: {
+    type: string;
+    content: {
+      type: Activity['type'];
+      status: Activity['status'];
+      message: Activity['message'];
+      timestamp: number;
+      completedSteps: number;
+      tokenUsed: number;
+    };
+  }): void;
+}
 
-export const createActivityTracker = (dataStream: any, researchState: ResearchState) => {
+export const createActivityTracker = (dataStream: DataStream, researchState: ResearchState) => {
 
     return {
         add: (type: Activity['type'], status: Activity['status'], message: Activity['message'] ) => {
@@ -11,7 +24,7 @@ export const createActivityTracker = (dataStream: any, researchState: ResearchSt
                 content:{
                     type,
                     status,
-                    message, 
+                    message,
                     timestamp: Date.now(),
                     completedSteps: researchState.completedSteps,
                     tokenUsed: researchState.tokenUsed
